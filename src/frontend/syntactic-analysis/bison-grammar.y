@@ -32,8 +32,8 @@
 %token <token> MUL
 %token <token> DIV
 
-%token <token> OPEN_PARENTHESIS
-%token <token> CLOSE_PARENTHESIS
+%token <token> OPEN_BRACKETS
+%token <token> CLOSE_BRACKETS
 
 %token <integer> INTEGER
 
@@ -62,7 +62,7 @@ expression: expression[left] ADD expression[right]					{ $$ = AdditionExpression
 	| factor														{ $$ = FactorExpressionGrammarAction($1); }
 	;
 
-factor: OPEN_PARENTHESIS expression CLOSE_PARENTHESIS				{ $$ = ExpressionFactorGrammarAction($2); }
+factor: OPEN_BRACKETS CLOSE_BRACKETS								{ $$ = ExpressionFactorGrammarAction($2); }
 	| constant														{ $$ = ConstantFactorGrammarAction($1); }
 	;
 

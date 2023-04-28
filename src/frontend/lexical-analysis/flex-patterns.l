@@ -33,8 +33,8 @@ whitespace		[ \f\n\r\t\v]
 "*"											{ return MultiplicationOperatorPatternAction(yytext); }
 "/"											{ return DivisionOperatorPatternAction(yytext); }
 
-"("											{ return OpenParenthesisPatternAction(yytext); }
-")"											{ return CloseParenthesisPatternAction(yytext); }
+"{"											{ return OpenBracketPatternAction(yytext); }
+"}"											{ return CloseBracketPatternAction(yytext); }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 
