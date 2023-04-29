@@ -10,7 +10,7 @@
 	/*
 	Program program;
 	Expression expression;
-	Factor factor;
+	InnerExp innerExp;
 	Constant constant;
 	...
 	*/
@@ -18,7 +18,7 @@
 	// No-terminales (frontend).
 	int program;
 	char* expression;
-	char* factor;
+	char* innerExp;
 	char* constant2;
 
 
@@ -37,7 +37,7 @@
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
 %type <expression> expression
-%type <factor> factor
+%type <innerExp> innerExp
 %type <constant2> constant2
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
@@ -48,18 +48,16 @@
 
 %%
 
-program: expression													{ $$ = ProgramGrammarAction($1); }
+program: constant2 expression													{ $$ = ProgramGrammarAction($2); }
 	;
 
-expression: CREATE constant2														{ $$ = StringConstantGrammarAction($2); }
-	| factor
-	;
-
-factor: OPEN_BRACKETS constant2 CLOSE_BRACKETS								{ $$ = ExpressionFactorGrammarAction($2); }
-	| OPEN_BRACKETS constant2 constant2 CLOSE_BRACKETS						{ $$ = ExpressionFactorGrammarAction($2); }
+expression: CREATE OPEN_BRACKETS constant2 CLOSE_BRACKETS
 	;
 
 constant2: STRING													{ $$ = StringConstantGrammarAction($1); }
 	;
+
+innerExp: constant2													{ $$ = ExpressionFactorGrammarAction($1); }
+	;	
 
 %%
