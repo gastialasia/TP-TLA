@@ -27,6 +27,12 @@ void EndCommentPatternAction() {
 	LogDebug("EndCommentPatternAction.");
 }
 
+token OpenBracketPatternAction(const char * lexeme) {
+	LogDebug("OpenBracketPatternAction: '%s'.", lexeme);
+	yylval.token = OPEN_BRACKETS;
+	return OPEN_BRACKETS;
+}
+
 token CloseBracketPatternAction(const char * lexeme) {
 	LogDebug("CloseBracketPatternAction: '%s'.", lexeme);
 	yylval.token = CLOSE_BRACKETS;
@@ -39,11 +45,11 @@ token LetterPatternAction(const char * lexeme, const int length) {
 	return STRING;
 }
 
-token OpenBracketPatternAction(const char * lexeme) {
-	LogDebug("OpenBracketPatternAction: '%s'.", lexeme);
-	yylval.token = OPEN_BRACKETS;
-	return OPEN_BRACKETS;
-}
+// token IntegerPatternAction(const char * lexeme, const int length) {
+// 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
+// 	yylval.integer = atoi(lexeme);
+// 	return INTEGER;
+// }
 
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);

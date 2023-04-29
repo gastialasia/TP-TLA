@@ -57,6 +57,11 @@ char* ExpressionFactorGrammarAction(const char* value) {
 	return strdup(value);
 }
 
+char* InnerExpressionGrammarAction(const char* value) {
+	LogDebug("\tInnerExpressionGrammarAction(%s)", value);
+	return strdup(value);
+}
+
 char* ConstantFactorGrammarAction(const char* value) {
 	LogDebug("\tConstantFactorGrammarAction(%s)", value);
 	return strdup(value);
@@ -66,3 +71,9 @@ char* StringConstantGrammarAction(const char* value) {
 	LogDebug("\tStringConstantGrammarAction(%s)", value);
 	return strdup(value);
 }
+
+char* NameGrammarAction(const char* value) {
+	LogDebug("\tNameGrammarAction(%s)", value);
+	return strdup(value);
+}
+

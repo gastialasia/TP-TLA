@@ -33,6 +33,7 @@
 
 %token <str> STRING
 %token <str> CREATE
+%token <str> NAME CORES RAM DISK ISO BIOS MAC
 
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
@@ -51,13 +52,13 @@
 program: constant2 expression													{ $$ = ProgramGrammarAction($2); }
 	;
 
-expression: CREATE OPEN_BRACKETS constant2 CLOSE_BRACKETS
+expression: CREATE OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
 	;
+
+innerExp: NAME constant2 CORES constant2										{ $$ = NameGrammarAction($2); }	
+	;	
 
 constant2: STRING													{ $$ = StringConstantGrammarAction($1); }
 	;
-
-innerExp: constant2													{ $$ = ExpressionFactorGrammarAction($1); }
-	;	
 
 %%

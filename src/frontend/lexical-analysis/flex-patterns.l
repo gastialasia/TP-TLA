@@ -31,9 +31,17 @@ whitespace		[ \f\n\r\t\v]
 "{"											{ return OpenBracketPatternAction(yytext); }
 "}"											{ return CloseBracketPatternAction(yytext); }
 
-"create"                                    { return CREATE; }
+"create vm"                                 { return CREATE; }
+"name"                                      { return NAME; }
+"cores"                                     { return CORES; }
+"ram"                                       { return RAM; }
+"disk"                                      { return DISK; }
+"iso"                                       { return ISO; }
+"bios"                                      { return BIOS; }
 
 {letter}+									{ return LetterPatternAction(yytext, yyleng); }
+
+
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
 

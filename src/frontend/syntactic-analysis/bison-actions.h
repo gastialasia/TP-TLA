@@ -24,4 +24,8 @@ char* ConstantFactorGrammarAction(const char* value);
 // Constantes.
 char* StringConstantGrammarAction(const char* value);
 
+char* InnerExpressionGrammarAction(const char* value);
+
+char* NameGrammarAction(const char* value);
+
 #endif
