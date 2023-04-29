@@ -18,6 +18,7 @@
 
 /* Patrones reutilizables. */
 digit			[0-9]
+letter          [a-z]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
 
@@ -37,6 +38,7 @@ whitespace		[ \f\n\r\t\v]
 "}"											{ return CloseBracketPatternAction(yytext); }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
+{letter}+									{ return LetterPatternAction(yytext, yyleng); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
 

@@ -1,6 +1,7 @@
 #include "../../backend/support/logger.h"
 #include "flex-actions.h"
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * Implementación de "flex-actions.h".
@@ -48,6 +49,12 @@ token IntegerPatternAction(const char * lexeme, const int length) {
 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
 	yylval.integer = atoi(lexeme);
 	return INTEGER;
+}
+
+token LetterPatternAction(const char * lexeme, const int length) {
+	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
+	yylval.str = strdup(lexeme);
+	return STRING;
 }
 
 token MultiplicationOperatorPatternAction(const char * lexeme) {

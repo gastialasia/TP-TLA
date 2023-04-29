@@ -12,7 +12,7 @@
  */
 
 // Programa.
-int ProgramGrammarAction(const int value);
+int ProgramGrammarAction(const char* value);
 
 // Expresión.
 int AdditionExpressionGrammarAction(const int leftValue, const int rightValue);
@@ -27,5 +27,6 @@ int ConstantFactorGrammarAction(const int value);
 
 // Constantes.
 int IntegerConstantGrammarAction(const int value);
+char* StringConstantGrammarAction(const char* value);
 
 #endif
