@@ -12,20 +12,20 @@
  */
 
 // Programa.
-int ProgramGrammarAction(const char* value);
+int ProgramGrammarAction(const int value);
 
 // Expresión.
-char* FactorExpressionGrammarAction(const char* value);
+int FactorExpressionGrammarAction(const int value);
 
 // Factores.
-char* ExpressionFactorGrammarAction(const char* value);
-char* ConstantFactorGrammarAction(const char* value);
+int ExpressionFactorGrammarAction(const int value);
+int ConstantFactorGrammarAction(const int value);
 
 // Constantes.
-char* StringConstantGrammarAction(const char* value);
+int StringConstantGrammarAction(const int value);
 
-char* InnerExpressionGrammarAction(const char* value);
+int InnerExpressionGrammarAction(const int value);
 
-char* NameGrammarAction(const char* value);
+int NameGrammarAction(const int value);
 
 #endif

@@ -41,7 +41,7 @@ token CloseBracketPatternAction(const char * lexeme) {
 
 token LetterPatternAction(const char * lexeme, const int length) {
 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.str = strdup(lexeme);
+	yylval.str = atoi(lexeme);
 	return STRING;
 }
 

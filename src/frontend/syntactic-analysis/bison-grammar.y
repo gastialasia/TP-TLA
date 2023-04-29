@@ -17,27 +17,27 @@
 
 	// No-terminales (frontend).
 	int program;
-	char* expression;
-	char* innerExp;
-	char* constant2;
+	int expression;
+	int innerExp;
+	int constant2;
 	int integer;
 
 
 	// Terminales.
 	token token;
-	char* str;
+	int str;
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
 %token <token> OPEN_BRACKETS
 %token <token> CLOSE_BRACKETS
 
-%token <str> STRING
+%token <integer> STRING
 %token <integer> INTEGER
 
-%token <str> CREATE
-%token <str> NAME CORES RAM DISK ISO BIOS
-%token <str> GB
+%token <integer> CREATE
+%token <integer> NAME CORES RAM DISK ISO BIOS
+%token <integer> GB
 
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program

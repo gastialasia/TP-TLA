@@ -28,7 +28,7 @@ void yyerror(const char * string) {
 * indica que efectivamente el programa de entrada se pudo generar con esta
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
-int ProgramGrammarAction(const char* value) {
+int ProgramGrammarAction(const int value) {
 	LogDebug("\tProgramGrammarAction(%s)", value);
 	/*
 	* "state" es una variable global que almacena el estado del compilador,
@@ -43,37 +43,37 @@ int ProgramGrammarAction(const char* value) {
 	* la expresión se computa on-the-fly, y es la razón por la cual esta
 	* variable es un simple entero, en lugar de un nodo.
 	*/
-	state.result = 0;
-	return 0;
+	state.result = value;
+	return value;
 }
 
-char* FactorExpressionGrammarAction(const char* value) {
+int FactorExpressionGrammarAction(const int value) {
 	LogDebug("\tFactorExpressionGrammarAction(%s)", value);
-	return strdup(value);
+	return value;
 }
 
-char* ExpressionFactorGrammarAction(const char* value) {
+int ExpressionFactorGrammarAction(const int value) {
 	LogDebug("\tExpressionFactorGrammarAction(%s)", value);
-	return strdup(value);
+	return value;
 }
 
-char* InnerExpressionGrammarAction(const char* value) {
+int InnerExpressionGrammarAction(const int value) {
 	LogDebug("\tInnerExpressionGrammarAction(%s)", value);
-	return strdup(value);
+	return value;
 }
 
-char* ConstantFactorGrammarAction(const char* value) {
+int ConstantFactorGrammarAction(const int value) {
 	LogDebug("\tConstantFactorGrammarAction(%s)", value);
-	return strdup(value);
+	return value;
 }
 
-char* StringConstantGrammarAction(const char* value) {
+int StringConstantGrammarAction(const int value) {
 	LogDebug("\tStringConstantGrammarAction(%s)", value);
-	return strdup(value);
+	return value;
 }
 
-char* NameGrammarAction(const char* value) {
+int NameGrammarAction(const int value) {
 	LogDebug("\tNameGrammarAction(%s)", value);
-	return strdup(value);
+	return value;
 }
 
