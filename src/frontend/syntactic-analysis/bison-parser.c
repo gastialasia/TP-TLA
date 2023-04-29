@@ -104,18 +104,14 @@ enum yysymbol_kind_t
   YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
-  YYSYMBOL_ADD = 3,                        /* ADD  */
-  YYSYMBOL_SUB = 4,                        /* SUB  */
-  YYSYMBOL_MUL = 5,                        /* MUL  */
-  YYSYMBOL_DIV = 6,                        /* DIV  */
-  YYSYMBOL_OPEN_BRACKETS = 7,              /* OPEN_BRACKETS  */
-  YYSYMBOL_CLOSE_BRACKETS = 8,             /* CLOSE_BRACKETS  */
-  YYSYMBOL_INTEGER = 9,                    /* INTEGER  */
-  YYSYMBOL_STRING = 10,                    /* STRING  */
-  YYSYMBOL_YYACCEPT = 11,                  /* $accept  */
-  YYSYMBOL_program = 12,                   /* program  */
-  YYSYMBOL_expression = 13,                /* expression  */
-  YYSYMBOL_constant2 = 14                  /* constant2  */
+  YYSYMBOL_OPEN_BRACKETS = 3,              /* OPEN_BRACKETS  */
+  YYSYMBOL_CLOSE_BRACKETS = 4,             /* CLOSE_BRACKETS  */
+  YYSYMBOL_STRING = 5,                     /* STRING  */
+  YYSYMBOL_YYACCEPT = 6,                   /* $accept  */
+  YYSYMBOL_program = 7,                    /* program  */
+  YYSYMBOL_expression = 8,                 /* expression  */
+  YYSYMBOL_factor = 9,                     /* factor  */
+  YYSYMBOL_constant2 = 10                  /* constant2  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -441,21 +437,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  5
+#define YYFINAL  8
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   1
+#define YYLAST   8
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  11
+#define YYNTOKENS  6
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  4
+#define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  4
+#define YYNRULES  7
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  6
+#define YYNSTATES  12
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   265
+#define YYMAXUTOK   260
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -495,14 +491,14 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10
+       5
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    60,    60,    63,    73
+       0,    50,    50,    53,    54,    57,    58,    61
 };
 #endif
 
@@ -518,9 +514,9 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "ADD", "SUB", "MUL",
-  "DIV", "OPEN_BRACKETS", "CLOSE_BRACKETS", "INTEGER", "STRING", "$accept",
-  "program", "expression", "constant2", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "OPEN_BRACKETS",
+  "CLOSE_BRACKETS", "STRING", "$accept", "program", "expression", "factor",
+  "constant2", YY_NULLPTR
 };
 
 static const char *
@@ -530,7 +526,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-11)
+#define YYPACT_NINF (-4)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -544,7 +540,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -10,   -11,     1,   -11,   -11,   -11
+      -2,    -3,    -4,     7,    -4,    -4,    -4,     0,    -4,    -4,
+       4,    -4
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -552,19 +549,20 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     4,     0,     2,     3,     1
+       0,     0,     7,     0,     2,     4,     3,     0,     1,     5,
+       0,     6
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -11,   -11,   -11,   -11
+      -4,    -4,    -4,    -4,    -1
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     3,     4
+       0,     3,     4,     5,     6
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -572,31 +570,32 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     5
+       7,     1,     2,     2,     9,     2,    10,     8,    11
 };
 
 static const yytype_int8 yycheck[] =
 {
-      10,     0
+       1,     3,     5,     5,     4,     5,     7,     0,     4
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    10,    12,    13,    14,     0
+       0,     3,     5,     7,     8,     9,    10,    10,     0,     4,
+      10,     4
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    11,    12,    13,    14
+       0,     6,     7,     8,     8,     9,     9,    10
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     1
+       0,     2,     1,     1,     1,     3,     4,     1
 };
 
 
@@ -1060,25 +1059,37 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: expression  */
-#line 60 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 50 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                                                                         { (yyval.program) = ProgramGrammarAction((yyvsp[0].expression)); }
-#line 1066 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1065 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 3: /* expression: constant2  */
-#line 63 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 53 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                                                                                 { (yyval.expression) = StringConstantGrammarAction((yyvsp[0].constant2)); }
-#line 1072 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1071 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
-  case 4: /* constant2: STRING  */
-#line 73 "../src/frontend/syntactic-analysis/bison-grammar.y"
+  case 5: /* factor: OPEN_BRACKETS constant2 CLOSE_BRACKETS  */
+#line 57 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                                                        { (yyval.factor) = ExpressionFactorGrammarAction((yyvsp[-1].constant2)); }
+#line 1077 "../src/frontend/syntactic-analysis/bison-parser.c"
+    break;
+
+  case 6: /* factor: OPEN_BRACKETS constant2 constant2 CLOSE_BRACKETS  */
+#line 58 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                                                        { (yyval.factor) = ExpressionFactorGrammarAction((yyvsp[-2].constant2)); }
+#line 1083 "../src/frontend/syntactic-analysis/bison-parser.c"
+    break;
+
+  case 7: /* constant2: STRING  */
+#line 61 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                                                                         { (yyval.constant2) = StringConstantGrammarAction((yyvsp[0].str)); }
-#line 1078 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1089 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
 
-#line 1082 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1093 "../src/frontend/syntactic-analysis/bison-parser.c"
 
       default: break;
     }
@@ -1271,5 +1282,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 76 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 64 "../src/frontend/syntactic-analysis/bison-grammar.y"
 

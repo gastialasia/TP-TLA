@@ -15,18 +15,13 @@
 int ProgramGrammarAction(const char* value);
 
 // Expresión.
-int AdditionExpressionGrammarAction(const int leftValue, const int rightValue);
-int SubtractionExpressionGrammarAction(const int leftValue, const int rightValue);
-int MultiplicationExpressionGrammarAction(const int leftValue, const int rightValue);
-int DivisionExpressionGrammarAction(const int leftValue, const int rightValue);
-int FactorExpressionGrammarAction(const int value);
+char* FactorExpressionGrammarAction(const char* value);
 
 // Factores.
-int ExpressionFactorGrammarAction(const int value);
-int ConstantFactorGrammarAction(const int value);
+char* ExpressionFactorGrammarAction(const char* value);
+char* ConstantFactorGrammarAction(const char* value);
 
 // Constantes.
-int IntegerConstantGrammarAction(const int value);
 char* StringConstantGrammarAction(const char* value);
 
 #endif

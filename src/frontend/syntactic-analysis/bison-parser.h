@@ -54,14 +54,9 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    ADD = 258,                     /* ADD  */
-    SUB = 259,                     /* SUB  */
-    MUL = 260,                     /* MUL  */
-    DIV = 261,                     /* DIV  */
-    OPEN_BRACKETS = 262,           /* OPEN_BRACKETS  */
-    CLOSE_BRACKETS = 263,          /* CLOSE_BRACKETS  */
-    INTEGER = 264,                 /* INTEGER  */
-    STRING = 265                   /* STRING  */
+    OPEN_BRACKETS = 258,           /* OPEN_BRACKETS  */
+    CLOSE_BRACKETS = 259,          /* CLOSE_BRACKETS  */
+    STRING = 260                   /* STRING  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -84,17 +79,15 @@ union YYSTYPE
 	// No-terminales (frontend).
 	int program;
 	char* expression;
-	int factor;
-	int constant;
+	char* factor;
 	char* constant2;
 
 
 	// Terminales.
 	token token;
-	int integer;
 	char* str;
 
-#line 98 "../src/frontend/syntactic-analysis/bison-parser.h"
+#line 91 "../src/frontend/syntactic-analysis/bison-parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

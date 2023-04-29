@@ -17,7 +17,6 @@
 %x COMMENT
 
 /* Patrones reutilizables. */
-digit			[0-9]
 letter          [a-z]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
@@ -29,15 +28,9 @@ whitespace		[ \f\n\r\t\v]
 <COMMENT>{endline}							{ ; }
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
 
-"+"											{ return AdditionOperatorPatternAction(yytext); }
-"-"											{ return SubtractionOperatorPatternAction(yytext); }
-"*"											{ return MultiplicationOperatorPatternAction(yytext); }
-"/"											{ return DivisionOperatorPatternAction(yytext); }
-
 "{"											{ return OpenBracketPatternAction(yytext); }
 "}"											{ return CloseBracketPatternAction(yytext); }
 
-{digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 {letter}+									{ return LetterPatternAction(yytext, yyleng); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }

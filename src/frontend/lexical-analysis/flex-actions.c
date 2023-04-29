@@ -27,28 +27,10 @@ void EndCommentPatternAction() {
 	LogDebug("EndCommentPatternAction.");
 }
 
-token AdditionOperatorPatternAction(const char * lexeme) {
-	LogDebug("AdditionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = ADD;
-	return ADD;
-}
-
 token CloseBracketPatternAction(const char * lexeme) {
 	LogDebug("CloseBracketPatternAction: '%s'.", lexeme);
 	yylval.token = CLOSE_BRACKETS;
 	return CLOSE_BRACKETS;
-}
-
-token DivisionOperatorPatternAction(const char * lexeme) {
-	LogDebug("DivisionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = DIV;
-	return DIV;
-}
-
-token IntegerPatternAction(const char * lexeme, const int length) {
-	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.integer = atoi(lexeme);
-	return INTEGER;
 }
 
 token LetterPatternAction(const char * lexeme, const int length) {
@@ -57,22 +39,10 @@ token LetterPatternAction(const char * lexeme, const int length) {
 	return STRING;
 }
 
-token MultiplicationOperatorPatternAction(const char * lexeme) {
-	LogDebug("MultiplicationOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = MUL;
-	return MUL;
-}
-
 token OpenBracketPatternAction(const char * lexeme) {
 	LogDebug("OpenBracketPatternAction: '%s'.", lexeme);
 	yylval.token = OPEN_BRACKETS;
 	return OPEN_BRACKETS;
-}
-
-token SubtractionOperatorPatternAction(const char * lexeme) {
-	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = SUB;
-	return SUB;
 }
 
 token UnknownPatternAction(const char * lexeme, const int length) {
