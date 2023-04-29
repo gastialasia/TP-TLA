@@ -32,6 +32,7 @@
 %token <token> CLOSE_BRACKETS
 
 %token <str> STRING
+%token <str> CREATE
 
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
@@ -50,7 +51,7 @@
 program: expression													{ $$ = ProgramGrammarAction($1); }
 	;
 
-expression: constant2														{ $$ = StringConstantGrammarAction($1); }
+expression: CREATE constant2														{ $$ = StringConstantGrammarAction($2); }
 	| factor
 	;
 

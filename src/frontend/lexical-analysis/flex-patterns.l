@@ -31,6 +31,8 @@ whitespace		[ \f\n\r\t\v]
 "{"											{ return OpenBracketPatternAction(yytext); }
 "}"											{ return CloseBracketPatternAction(yytext); }
 
+"create"                                    { return CREATE; }
+
 {letter}+									{ return LetterPatternAction(yytext, yyleng); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
