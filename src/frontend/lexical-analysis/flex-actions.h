@@ -27,7 +27,7 @@ void EndCommentPatternAction();
 token OpenBracketPatternAction(const char * lexeme);
 token CloseBracketPatternAction(const char * lexeme);
 token LetterPatternAction(const char * lexeme, const int length);
-//token IntegerPatternAction(const char * lexeme, const int length);
+token IntegerPatternAction(const char * lexeme, const int length);
 
 
 // Patrón desconocido, permite abortar debido a un error de sintaxis.

@@ -17,9 +17,11 @@
 %x COMMENT
 
 /* Patrones reutilizables. */
-letter          [a-z]
+letter          [a-zA-Z]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
+digit			[0-9]
+
 
 %%
 
@@ -39,9 +41,11 @@ whitespace		[ \f\n\r\t\v]
 "iso"                                       { return ISO; }
 "bios"                                      { return BIOS; }
 
+"G"                                         { return GB; }
+
 {letter}+									{ return LetterPatternAction(yytext, yyleng); }
 
-
+{digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
 

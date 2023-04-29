@@ -45,11 +45,11 @@ token LetterPatternAction(const char * lexeme, const int length) {
 	return STRING;
 }
 
-// token IntegerPatternAction(const char * lexeme, const int length) {
-// 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-// 	yylval.integer = atoi(lexeme);
-// 	return INTEGER;
-// }
+token IntegerPatternAction(const char * lexeme, const int length) {
+	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
+	yylval.integer = atoi(lexeme);
+	return INTEGER;
+}
 
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
