@@ -23,7 +23,8 @@
 	int integer;
 	int biostype;
 	int netExp;
-
+	int resource;
+	int resources;
 
 	// Terminales.
 	token token;
@@ -38,9 +39,8 @@
 %token <integer> INTEGER
 
 %token <integer> CREATE
-%token <integer> NAME CORES RAM DISK ISO BIOS
-%token <integer> GB
-%token <integer> UEFI LEGACY
+%token <resource> NAME CORES RAM DISK ISO BIOS GB
+%token <biostype> UEFI LEGACY
 %token <integer> NET TYPE MAC
 
 
@@ -51,6 +51,8 @@
 %type <constant2> constant2
 %type <biostype> biostype
 %type <netExp> netExp
+%type <resource> resources
+%type <resource> resource
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
 
@@ -66,16 +68,24 @@ program: constant2 expression													{ $$ = ProgramGrammarAction($2); }
 expression: CREATE OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
 	;
 
-innerExp: NAME constant2 CORES INTEGER RAM INTEGER GB DISK INTEGER GB ISO constant2 BIOS biostype NET netExp { $$ = NameGrammarAction($2); }
+innerExp: NAME constant2 resources ISO constant2 resources						{ $$ = NameGrammarAction($2); }	
+	|	NAME constant2 ISO constant2 resources									{ $$ = NameGrammarAction($2); }	
+	|	NAME constant2 resources ISO constant2									{ $$ = NameGrammarAction($2); }	
+	|	NAME constant2 ISO constant2											{ $$ = NameGrammarAction($2); }	
 	;	
 
 constant2: STRING													{ $$ = StringConstantGrammarAction($1); }
 	;
 
-biostype: UEFI | LEGACY												{ $$ = StringConstantGrammarAction($1); }
-	;
-
 netExp: OPEN_BRACKETS TYPE constant2 MAC constant2 CLOSE_BRACKETS				{ $$ = StringConstantGrammarAction($3); }
 	;
+
+biostype: UEFI | LEGACY															{ $$ = StringConstantGrammarAction($1); }
+	;
+
+resources: resource resources | resource										{ $$ = StringConstantGrammarAction($1); }
+	;
+
+resource: CORES INTEGER | RAM INTEGER GB | DISK INTEGER GB | BIOS biostype | NET netExp	{ $$ = StringConstantGrammarAction($1); }
 
 %%
