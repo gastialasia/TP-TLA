@@ -39,9 +39,57 @@ token CloseBracketPatternAction(const char * lexeme) {
 	return CLOSE_BRACKETS;
 }
 
+token CreatePatternAction(const char * lexeme) {
+	LogDebug("CreatePatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = CREATE;
+	return CREATE;
+}
+
+token NamePatternAction(const char * lexeme) {
+	LogDebug("NamePatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = NAME;
+	return NAME;
+}
+
+token CoresPatternAction(const char * lexeme) {
+	LogDebug("CoresPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = CORES;
+	return CORES;
+}
+
+token RamPatternAction(const char * lexeme) {
+	LogDebug("RamPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = RAM;
+	return RAM;
+}
+
+token DiskPatternAction(const char * lexeme) {
+	LogDebug("DiskPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = DISK;
+	return DISK;
+}
+
+token IsoPatternAction(const char * lexeme) {
+	LogDebug("IsoPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = ISO;
+	return ISO;
+}
+
+token BiosPatternAction(const char * lexeme) {
+	LogDebug("BiosPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = BIOS;
+	return BIOS;
+}
+
+token GbPatternAction(const char * lexeme) {
+	LogDebug("GbPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = GB;
+	return GB;
+}
+
 token LetterPatternAction(const char * lexeme, const int length) {
 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.str = atoi(lexeme);
+	yylval.token = STRING;
 	return STRING;
 }
 

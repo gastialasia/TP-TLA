@@ -33,15 +33,15 @@ digit			[0-9]
 "{"											{ return OpenBracketPatternAction(yytext); }
 "}"											{ return CloseBracketPatternAction(yytext); }
 
-"create vm"                                 { return CREATE; }
-"name"                                      { return NAME; }
-"cores"                                     { return CORES; }
-"ram"                                       { return RAM; }
-"disk"                                      { return DISK; }
-"iso"                                       { return ISO; }
-"bios"                                      { return BIOS; }
+"create vm"                                 { return CreatePatternAction(yytext); }
+"name"                                      { return NamePatternAction(yytext); }
+"cores"                                     { return CoresPatternAction(yytext); }
+"ram"                                       { return RamPatternAction(yytext); }
+"disk"                                      { return DiskPatternAction(yytext); }
+"iso"                                       { return IsoPatternAction(yytext); }
+"bios"                                      { return BiosPatternAction(yytext); }
 
-"G"                                         { return GB; }
+"G"                                         { return GbPatternAction(yytext); }
 
 {letter}+									{ return LetterPatternAction(yytext, yyleng); }
 

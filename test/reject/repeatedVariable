@@ -1,0 +1,9 @@
+myVM create vm {
+	name prueba
+	cores deberiaIrUnNumeroAca
+	ram 16G
+	disk 40G
+	disk 30G
+	iso path
+	bios fddfgdg
+}
