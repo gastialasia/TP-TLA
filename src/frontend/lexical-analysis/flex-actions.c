@@ -87,6 +87,18 @@ token GbPatternAction(const char * lexeme) {
 	return GB;
 }
 
+token UEFIPatternAction(const char * lexeme) {
+	LogDebug("UEFIPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = UEFI;
+	return UEFI;
+}
+
+token legacyPatternAction(const char * lexeme) {
+	LogDebug("LegacyPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = LEGACY;
+	return LEGACY;
+}
+
 token LetterPatternAction(const char * lexeme, const int length) {
 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
 	yylval.token = STRING;

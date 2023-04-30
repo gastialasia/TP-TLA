@@ -65,7 +65,9 @@ extern int yydebug;
     DISK = 266,                    /* DISK  */
     ISO = 267,                     /* ISO  */
     BIOS = 268,                    /* BIOS  */
-    GB = 269                       /* GB  */
+    GB = 269,                      /* GB  */
+    UEFI = 270,                    /* UEFI  */
+    LEGACY = 271                   /* LEGACY  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -91,13 +93,14 @@ union YYSTYPE
 	int innerExp;
 	int constant2;
 	int integer;
+	int biostype;
 
 
 	// Terminales.
 	token token;
 	int str;
 
-#line 101 "../src/frontend/syntactic-analysis/bison-parser.h"
+#line 104 "../src/frontend/syntactic-analysis/bison-parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

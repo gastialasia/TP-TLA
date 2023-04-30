@@ -116,11 +116,14 @@ enum yysymbol_kind_t
   YYSYMBOL_ISO = 12,                       /* ISO  */
   YYSYMBOL_BIOS = 13,                      /* BIOS  */
   YYSYMBOL_GB = 14,                        /* GB  */
-  YYSYMBOL_YYACCEPT = 15,                  /* $accept  */
-  YYSYMBOL_program = 16,                   /* program  */
-  YYSYMBOL_expression = 17,                /* expression  */
-  YYSYMBOL_innerExp = 18,                  /* innerExp  */
-  YYSYMBOL_constant2 = 19                  /* constant2  */
+  YYSYMBOL_UEFI = 15,                      /* UEFI  */
+  YYSYMBOL_LEGACY = 16,                    /* LEGACY  */
+  YYSYMBOL_YYACCEPT = 17,                  /* $accept  */
+  YYSYMBOL_program = 18,                   /* program  */
+  YYSYMBOL_expression = 19,                /* expression  */
+  YYSYMBOL_innerExp = 20,                  /* innerExp  */
+  YYSYMBOL_constant2 = 21,                 /* constant2  */
+  YYSYMBOL_biostype = 22                   /* biostype  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -448,19 +451,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   23
+#define YYLAST   25
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  15
+#define YYNTOKENS  17
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  5
+#define YYNNTS  6
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  5
+#define YYNRULES  7
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  24
+#define YYNSTATES  26
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   269
+#define YYMAXUTOK   271
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -500,14 +503,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    14
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    56,    56,    59,    62,    65
+       0,    59,    59,    62,    65,    68,    71,    71
 };
 #endif
 
@@ -525,8 +529,8 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "OPEN_BRACKETS",
   "CLOSE_BRACKETS", "STRING", "INTEGER", "CREATE", "NAME", "CORES", "RAM",
-  "DISK", "ISO", "BIOS", "GB", "$accept", "program", "expression",
-  "innerExp", "constant2", YY_NULLPTR
+  "DISK", "ISO", "BIOS", "GB", "UEFI", "LEGACY", "$accept", "program",
+  "expression", "innerExp", "constant2", "biostype", YY_NULLPTR
 };
 
 static const char *
@@ -536,7 +540,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-9)
+#define YYPACT_NINF (-15)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -550,9 +554,9 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -4,    -9,     2,    -3,    -9,     0,    -9,    -2,    -4,     1,
-      -1,    -9,     3,     5,     4,    -7,     6,     7,     8,     9,
-      -4,    10,    -4,    -9
+      -2,   -15,     4,    -1,   -15,     2,   -15,     0,    -2,     3,
+       1,   -15,     5,     6,     7,    -5,     8,     9,    10,    11,
+      -2,    12,   -14,   -15,   -15,   -15
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -562,19 +566,19 @@ static const yytype_int8 yydefact[] =
 {
        0,     5,     0,     0,     1,     0,     2,     0,     0,     0,
        0,     3,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     4
+       0,     0,     0,     6,     7,     4
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -9,    -9,    -9,    -9,    -8
+     -15,   -15,   -15,   -15,    -8,   -15
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     6,     9,     3
+       0,     2,     6,     9,     3,    25
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -582,37 +586,37 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      10,     1,     4,     7,     5,    11,     8,    16,    12,    13,
-      15,     0,    21,    18,    23,    14,     0,    17,     0,     0,
-       0,    20,    19,    22
+      10,    23,    24,     1,     4,     7,     5,    11,     8,    16,
+      12,    13,    21,    15,     0,    18,    14,     0,     0,    17,
+       0,     0,     0,    20,    19,    22
 };
 
 static const yytype_int8 yycheck[] =
 {
-       8,     5,     0,     3,     7,     4,     8,    14,     9,     6,
-       6,    -1,    20,     6,    22,    10,    -1,    11,    -1,    -1,
-      -1,    12,    14,    13
+       8,    15,    16,     5,     0,     3,     7,     4,     8,    14,
+       9,     6,    20,     6,    -1,     6,    10,    -1,    -1,    11,
+      -1,    -1,    -1,    12,    14,    13
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     5,    16,    19,     0,     7,    17,     3,     8,    18,
-      19,     4,     9,     6,    10,     6,    14,    11,     6,    14,
-      12,    19,    13,    19
+       0,     5,    18,    21,     0,     7,    19,     3,     8,    20,
+      21,     4,     9,     6,    10,     6,    14,    11,     6,    14,
+      12,    21,    13,    15,    16,    22
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    15,    16,    17,    18,    19
+       0,    17,    18,    19,    20,    21,    22,    22
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     2,     4,    14,     1
+       0,     2,     2,     4,    14,     1,     1,     1
 };
 
 
@@ -1076,31 +1080,37 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: constant2 expression  */
-#line 56 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 59 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                                                                                 { (yyval.program) = ProgramGrammarAction((yyvsp[0].expression)); }
-#line 1082 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1086 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 3: /* expression: CREATE OPEN_BRACKETS innerExp CLOSE_BRACKETS  */
-#line 59 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 62 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                                                         { (yyval.expression) = InnerExpressionGrammarAction((yyvsp[-1].innerExp)); }
-#line 1088 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1092 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
-  case 4: /* innerExp: NAME constant2 CORES INTEGER RAM INTEGER GB DISK INTEGER GB ISO constant2 BIOS constant2  */
-#line 62 "../src/frontend/syntactic-analysis/bison-grammar.y"
-                                                                                                                                                                                { (yyval.innerExp) = NameGrammarAction((yyvsp[-12].constant2)); }
-#line 1094 "../src/frontend/syntactic-analysis/bison-parser.c"
+  case 4: /* innerExp: NAME constant2 CORES INTEGER RAM INTEGER GB DISK INTEGER GB ISO constant2 BIOS biostype  */
+#line 65 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                                                        { (yyval.innerExp) = NameGrammarAction((yyvsp[-12].constant2)); }
+#line 1098 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
   case 5: /* constant2: STRING  */
-#line 65 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 68 "../src/frontend/syntactic-analysis/bison-grammar.y"
                                                                                                                         { (yyval.constant2) = StringConstantGrammarAction((yyvsp[0].integer)); }
-#line 1100 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1104 "../src/frontend/syntactic-analysis/bison-parser.c"
+    break;
+
+  case 7: /* biostype: LEGACY  */
+#line 71 "../src/frontend/syntactic-analysis/bison-grammar.y"
+                                                                                                                { (yyval.biostype) = StringConstantGrammarAction((yyvsp[0].integer)); }
+#line 1110 "../src/frontend/syntactic-analysis/bison-parser.c"
     break;
 
 
-#line 1104 "../src/frontend/syntactic-analysis/bison-parser.c"
+#line 1114 "../src/frontend/syntactic-analysis/bison-parser.c"
 
       default: break;
     }
@@ -1293,5 +1303,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 68 "../src/frontend/syntactic-analysis/bison-grammar.y"
+#line 74 "../src/frontend/syntactic-analysis/bison-grammar.y"
 

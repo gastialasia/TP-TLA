@@ -42,6 +42,8 @@ digit			[0-9]
 "bios"                                      { return BiosPatternAction(yytext); }
 
 "G"                                         { return GbPatternAction(yytext); }
+"UEFI"                                      { return UEFIPatternAction(yytext); }
+"legacy"                                    { return legacyPatternAction(yytext); }
 
 {letter}+									{ return LetterPatternAction(yytext, yyleng); }
 
