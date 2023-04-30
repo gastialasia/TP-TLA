@@ -1,0 +1,7 @@
+myVM create vm {
+	name prueba
+	cores 10
+	ram 16
+	disk 40G
+	bios legacy
+}
