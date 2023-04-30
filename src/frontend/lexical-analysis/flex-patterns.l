@@ -49,6 +49,11 @@ digit			[0-9]
 "type"                                      { return TYPE; }
 "mac"                                       { return MAC; }
 
+"so"                                        { return SO; }
+"nat"                                       { return NAT; }
+"bridge"                                    { return BRIDGE; }
+"macvtop"                                   { return MACVTOP; }
+
 {letter}+									{ return LetterPatternAction(yytext, yyleng); }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }

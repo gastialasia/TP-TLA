@@ -6,7 +6,7 @@ varName create vm {
 	iso path
 	bios UEFI
 	net-controller {
-		type tipo
+		type nat
 		mac direccionMac
 	}
 }

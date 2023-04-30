@@ -22,6 +22,7 @@
 	int constant2;
 	int integer;
 	int biostype;
+	int nettype;
 	int netExp;
 	int resource;
 	int resources;
@@ -39,9 +40,10 @@
 %token <integer> INTEGER
 
 %token <integer> CREATE
-%token <resource> NAME CORES RAM DISK ISO BIOS GB
+%token <resource> NAME CORES RAM DISK ISO BIOS GB SO
 %token <biostype> UEFI LEGACY
 %token <integer> NET TYPE MAC
+%token <nettype> NAT BRIDGE MACVTOP
 
 
 // Tipos de dato para los no-terminales generados desde Bison.
@@ -51,6 +53,7 @@
 %type <constant2> constant2
 %type <biostype> biostype
 %type <netExp> netExp
+%type <nettype> nettype
 %type <resource> resources
 %type <resource> resource
 
@@ -77,10 +80,13 @@ innerExp: NAME constant2 resources ISO constant2 resources						{ $$ = NameGramm
 constant2: STRING													{ $$ = StringConstantGrammarAction($1); }
 	;
 
-netExp: OPEN_BRACKETS TYPE constant2 MAC constant2 CLOSE_BRACKETS				{ $$ = StringConstantGrammarAction($3); }
+netExp: OPEN_BRACKETS TYPE nettype MAC constant2 CLOSE_BRACKETS				{ $$ = StringConstantGrammarAction($3); }
 	;
 
 biostype: UEFI | LEGACY															{ $$ = StringConstantGrammarAction($1); }
+	;
+
+nettype: NAT | BRIDGE | MACVTOP															{ $$ = StringConstantGrammarAction($1); }
 	;
 
 resources: resource resources | resource										{ $$ = StringConstantGrammarAction($1); }
