@@ -5,5 +5,5 @@ myVM create vm {
 	disk 40G
 	disk 30G
 	iso path
-	bios fddfgdg
+	bios legacy
 }

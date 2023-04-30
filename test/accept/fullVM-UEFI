@@ -5,4 +5,8 @@ varName create vm {
 	disk 40G
 	iso path
 	bios UEFI
+	net-controller {
+		type tipo
+		mac direccionMac
+	}
 }

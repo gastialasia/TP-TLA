@@ -45,6 +45,10 @@ digit			[0-9]
 "UEFI"                                      { return UEFIPatternAction(yytext); }
 "legacy"                                    { return legacyPatternAction(yytext); }
 
+"net-controller"                            { return NET; }
+"type"                                      { return TYPE; }
+"mac"                                       { return MAC; }
+
 {letter}+									{ return LetterPatternAction(yytext, yyleng); }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
