@@ -54,9 +54,9 @@ digit			[0-9]
 "bridge"                                    { return BRIDGE; }
 "macvtop"                                   { return MACVTOP; }
 
-{letter}+									{ return LetterPatternAction(yytext, yyleng); }
-
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
+
+{letter}+									{ return LetterPatternAction(yytext, yyleng); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
 

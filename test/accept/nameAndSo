@@ -1,0 +1,4 @@
+varName create vm {
+	name prueba
+	so soname
+}

@@ -25,7 +25,6 @@
 	int nettype;
 	int netExp;
 	int resource;
-	int resources;
 
 	// Terminales.
 	token token;
@@ -54,6 +53,7 @@
 %type <biostype> biostype
 %type <netExp> netExp
 %type <nettype> nettype
+%type <resource> soresource
 %type <resource> resources
 %type <resource> resource
 
@@ -71,10 +71,10 @@ program: constant2 expression													{ $$ = ProgramGrammarAction($2); }
 expression: CREATE OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
 	;
 
-innerExp: NAME constant2 resources ISO constant2 resources						{ $$ = NameGrammarAction($2); }	
-	|	NAME constant2 ISO constant2 resources									{ $$ = NameGrammarAction($2); }	
-	|	NAME constant2 resources ISO constant2									{ $$ = NameGrammarAction($2); }	
-	|	NAME constant2 ISO constant2											{ $$ = NameGrammarAction($2); }	
+innerExp: NAME constant2 resources soresource resources						{ $$ = NameGrammarAction($2); }	
+	|	NAME constant2 soresource resources									{ $$ = NameGrammarAction($2); }	
+	|	NAME constant2 resources soresource									{ $$ = NameGrammarAction($2); }	
+	|	NAME constant2 soresource											{ $$ = NameGrammarAction($2); }	
 	;	
 
 constant2: STRING													{ $$ = StringConstantGrammarAction($1); }
@@ -90,6 +90,9 @@ nettype: NAT | BRIDGE | MACVTOP															{ $$ = StringConstantGrammarAction
 	;
 
 resources: resource resources | resource										{ $$ = StringConstantGrammarAction($1); }
+	;
+
+soresource: SO constant2 | ISO constant2										{ $$ = StringConstantGrammarAction($1); }
 	;
 
 resource: CORES INTEGER | RAM INTEGER GB | DISK INTEGER GB | BIOS biostype | NET netExp	{ $$ = StringConstantGrammarAction($1); }
