@@ -1,4 +1,4 @@
-varName create vm {
+varName1 create vm {
 	name prueba
 	cores 10
 	ram 16G

@@ -17,10 +17,10 @@
 %x COMMENT
 
 /* Patrones reutilizables. */
-letter          [a-zA-Z]
+digit			[0-9]
+letter          [a-zA-Z][a-zA-Z0-9]*
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
-digit			[0-9]
 
 
 %%
