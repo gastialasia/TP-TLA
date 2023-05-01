@@ -99,6 +99,48 @@ token legacyPatternAction(const char * lexeme) {
 	return LEGACY;
 }
 
+token NetPatternAction(const char * lexeme) {
+	LogDebug("NetPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = NET;
+	return NET;
+}
+
+token TypePatternAction(const char * lexeme) {
+	LogDebug("TypePatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = TYPE;
+	return TYPE;
+}
+
+token MacPatternAction(const char * lexeme) {
+	LogDebug("MacPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = MAC;
+	return MAC;
+}
+
+token SoPatternAction(const char * lexeme) {
+	LogDebug("SoPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = SO;
+	return SO;
+}
+
+token NatPatternAction(const char * lexeme) {
+	LogDebug("NatPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = NAT;
+	return NAT;
+}
+
+token BridgePatternAction(const char * lexeme) {
+	LogDebug("BridgePatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = BRIDGE;
+	return BRIDGE;
+}
+
+token MacvtopPatternAction(const char * lexeme) {
+	LogDebug("MacvtopPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = MACVTOP;
+	return MACVTOP;
+}
+
 token LetterPatternAction(const char * lexeme, const int length) {
 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
 	yylval.token = STRING;

@@ -45,14 +45,13 @@ digit			[0-9]
 "UEFI"                                      { return UEFIPatternAction(yytext); }
 "legacy"                                    { return legacyPatternAction(yytext); }
 
-"net-controller"                            { return NET; }
-"type"                                      { return TYPE; }
-"mac"                                       { return MAC; }
-
-"so"                                        { return SO; }
-"nat"                                       { return NAT; }
-"bridge"                                    { return BRIDGE; }
-"macvtop"                                   { return MACVTOP; }
+"net-controller"                            { return NetPatternAction(yytext); }
+"type"                                      { return TypePatternAction(yytext); }
+"mac"                                       { return MacPatternAction(yytext); }
+"so"                                        { return SoPatternAction(yytext); }
+"nat"                                       { return NatPatternAction(yytext); }
+"bridge"                                    { return BridgePatternAction(yytext); }
+"macvtop"                                   { return MacvtopPatternAction(yytext); }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 

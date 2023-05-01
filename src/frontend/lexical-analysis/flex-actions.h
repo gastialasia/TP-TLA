@@ -36,6 +36,13 @@ token BiosPatternAction(const char * lexeme);
 token GbPatternAction(const char * lexeme);
 token UEFIPatternAction(const char * lexeme);
 token legacyPatternAction(const char * lexeme);
+token NetPatternAction(const char * lexeme);
+token TypePatternAction(const char * lexeme);
+token MacPatternAction(const char * lexeme);
+token SoPatternAction(const char * lexeme);
+token NatPatternAction(const char * lexeme);
+token BridgePatternAction(const char * lexeme);
+token MacvtopPatternAction(const char * lexeme);
 token LetterPatternAction(const char * lexeme, const int length);
 token IntegerPatternAction(const char * lexeme, const int length);
 
