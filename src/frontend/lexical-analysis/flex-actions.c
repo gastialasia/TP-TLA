@@ -153,6 +153,24 @@ token IntegerPatternAction(const char * lexeme, const int length) {
 	return INTEGER;
 }
 
+token AdditionOperatorPatternAction(const char * lexeme) {
+	LogDebug("AdditionOperatorPatternAction: '%s'.", lexeme);
+	yylval.token = ADD;
+	return ADD;
+}
+
+token MultiplicationOperatorPatternAction(const char * lexeme) {
+	LogDebug("MultiplicationOperatorPatternAction: '%s'.", lexeme);
+	yylval.token = MUL;
+	return MUL;
+}
+
+token SubtractionOperatorPatternAction(const char * lexeme) {
+	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
+	yylval.token = SUB;
+	return SUB;
+}
+
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
 	yylval.token = YYUNDEF;

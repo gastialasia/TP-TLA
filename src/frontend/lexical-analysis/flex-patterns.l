@@ -33,6 +33,10 @@ whitespace		[ \f\n\r\t\v]
 "{"											{ return OpenBracketPatternAction(yytext); }
 "}"											{ return CloseBracketPatternAction(yytext); }
 
+"+"											{ return AdditionOperatorPatternAction(yytext); }
+"-"											{ return SubtractionOperatorPatternAction(yytext); }
+"*"											{ return MultiplicationOperatorPatternAction(yytext); }
+
 "create vm"                                 { return CreatePatternAction(yytext); }
 "name"                                      { return NamePatternAction(yytext); }
 "cores"                                     { return CoresPatternAction(yytext); }

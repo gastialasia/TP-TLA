@@ -25,6 +25,8 @@
 	int nettype;
 	int netExp;
 	int resource;
+	int operator;
+	int variable;
 
 	// Terminales.
 	token token;
@@ -35,15 +37,15 @@
 %token <token> OPEN_BRACKETS
 %token <token> CLOSE_BRACKETS
 
-%token <integer> STRING
-%token <integer> INTEGER
+%token <variable> STRING
+%token <variable> INTEGER
 
 %token <integer> CREATE
 %token <resource> NAME CORES RAM DISK ISO BIOS GB SO
 %token <biostype> UEFI LEGACY
 %token <integer> NET TYPE MAC
 %token <nettype> NAT BRIDGE MACVTOP
-
+%token <operator> ADD SUB MUL
 
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
@@ -56,9 +58,10 @@
 %type <resource> soresource
 %type <resource> resources
 %type <resource> resource
+%type <operator> operator
+%type <variable> variable
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
-
 
 // El símbolo inicial de la gramatica.
 %start program
@@ -95,6 +98,13 @@ resources: resource resources | resource										{ $$ = StringConstantGrammarAc
 soresource: SO constant2 | ISO constant2										{ $$ = StringConstantGrammarAction($1); }
 	;
 
-resource: CORES INTEGER | RAM INTEGER GB | DISK INTEGER GB | BIOS biostype | NET netExp	{ $$ = StringConstantGrammarAction($1); }
+resource: CORES variable | RAM variable GB | DISK variable GB | BIOS biostype | NET netExp	{ $$ = StringConstantGrammarAction($1); }
+	;
+
+operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); }
+	;
+
+variable: INTEGER | INTEGER operator INTEGER | STRING | STRING operator INTEGER | INTEGER operator STRING	{ $$ = StringConstantGrammarAction($1); }
+	;
 
 %%
