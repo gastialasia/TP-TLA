@@ -165,6 +165,14 @@ token MultiplicationOperatorPatternAction(const char * lexeme) {
 	return MUL;
 }
 
+token DotPatternAction(const char * lexeme) {
+	LogDebug("DotPatternAction: '%s'.", lexeme);
+	yylval.token = DOT;
+	return DOT;
+}
+
+
+
 token SubtractionOperatorPatternAction(const char * lexeme) {
 	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
 	yylval.token = SUB;

@@ -27,6 +27,7 @@
 	int resource;
 	int operator;
 	int variable;
+	int dottype;
 
 	// Terminales.
 	token token;
@@ -46,6 +47,7 @@
 %token <integer> NET TYPE MAC
 %token <nettype> NAT BRIDGE MACVTOP
 %token <operator> ADD SUB MUL
+%token <dottype> DOT
 
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
@@ -60,6 +62,8 @@
 %type <resource> resource
 %type <operator> operator
 %type <variable> variable
+%type <dottype> dottype
+%type <variable> reference
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
 
@@ -104,7 +108,13 @@ resource: CORES variable | RAM variable GB | DISK variable GB | BIOS biostype | 
 operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); }
 	;
 
-variable: INTEGER | INTEGER operator INTEGER | STRING | STRING operator INTEGER | INTEGER operator STRING	{ $$ = StringConstantGrammarAction($1); }
+variable: INTEGER | INTEGER operator INTEGER | reference | reference operator INTEGER | INTEGER operator reference	{ $$ = StringConstantGrammarAction($1); }
+	;
+
+dottype: DOT																		{ $$ = StringConstantGrammarAction($1); }									
+	;
+
+reference: STRING dottype CORES | STRING dottype RAM | STRING dottype DISK												{ $$ = StringConstantGrammarAction($1); }
 	;
 
 %%

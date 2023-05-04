@@ -37,6 +37,8 @@ whitespace		[ \f\n\r\t\v]
 "-"											{ return SubtractionOperatorPatternAction(yytext); }
 "*"											{ return MultiplicationOperatorPatternAction(yytext); }
 
+"."                                         { return DotPatternAction(yytext); }
+
 "create vm"                                 { return CreatePatternAction(yytext); }
 "name"                                      { return NamePatternAction(yytext); }
 "cores"                                     { return CoresPatternAction(yytext); }

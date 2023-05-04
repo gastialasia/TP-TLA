@@ -1,6 +1,6 @@
 myVM create vm {
 	name prueba
-	cores deberiaIrUnNumeroAca
+	cores vm1.cores
 	ram 16G
 	disk 40G
 	disk 30G
