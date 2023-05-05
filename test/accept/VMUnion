@@ -8,7 +8,14 @@ vm1 create vm {
 
 vm2 create vm {
 	name prueba
-	ram vm1.ram G
-	disk vm1.disk G
+	ram vm1.ram
+	disk vm1.disk
+	iso path
+}
+
+vm3 create vm {
+	name prueba
+	ram vm2.ram-2G
+	disk vm1.disk-8G
 	iso path
 }

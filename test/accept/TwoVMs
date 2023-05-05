@@ -1,0 +1,14 @@
+vm1 create vm {
+	name prueba
+	iso path
+	ram 8G
+	disk 20G
+	cores 3
+}
+
+vm3 create vm {
+	name prueba
+	ram 8G-2G
+	disk 8G
+	iso path
+}

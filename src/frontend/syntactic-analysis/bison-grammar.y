@@ -21,12 +21,14 @@
 	int innerExp;
 	int constant2;
 	int integer;
+	int	integergb;
 	int biostype;
 	int nettype;
 	int netExp;
 	int resource;
 	int operator;
 	int variable;
+	int variablegb;
 	int dottype;
 	int vmtype;
 
@@ -63,11 +65,13 @@
 %type <resource> resource
 %type <operator> operator
 %type <variable> variable
+
 %type <dottype> dottype
 %type <variable> reference
 %type <vmtype> vmtype
 %type <vmtype> vmunion
-
+%type <variable> variablegb
+%type <variable> integergb
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
 
@@ -112,13 +116,19 @@ resources: resource resources | resource										{ $$ = StringConstantGrammarAc
 soresource: SO constant2 | ISO constant2										{ $$ = StringConstantGrammarAction($1); }
 	;
 
-resource: CORES variable | RAM variable GB | DISK variable GB | BIOS biostype | NET netExp	{ $$ = StringConstantGrammarAction($1); }
+resource: CORES variable | RAM variablegb | DISK variablegb | BIOS biostype | NET netExp	{ $$ = StringConstantGrammarAction($1); }
 	;
 
 operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); }
 	;
 
 variable: INTEGER | INTEGER operator INTEGER | reference | reference operator INTEGER | INTEGER operator reference	{ $$ = StringConstantGrammarAction($1); }
+	;
+
+variablegb: integergb | integergb operator integergb | reference | reference operator integergb | integergb operator reference	{ $$ = StringConstantGrammarAction($1); }
+	;
+
+integergb: INTEGER GB																{ $$ = StringConstantGrammarAction($1); }
 	;
 
 dottype: DOT																		{ $$ = StringConstantGrammarAction($1); }									
