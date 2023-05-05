@@ -28,6 +28,7 @@
 	int operator;
 	int variable;
 	int dottype;
+	int vmtype;
 
 	// Terminales.
 	token token;
@@ -64,6 +65,9 @@
 %type <variable> variable
 %type <dottype> dottype
 %type <variable> reference
+%type <vmtype> vmtype
+%type <vmtype> vmunion
+
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
 
@@ -72,7 +76,13 @@
 
 %%
 
-program: constant2 expression													{ $$ = ProgramGrammarAction($2); }
+program: vmunion 					 											{ $$ = ProgramGrammarAction($1); }
+	;
+
+vmunion: vmtype vmunion | vmtype												{ $$ = StringConstantGrammarAction($1); }
+	;
+
+vmtype: constant2 expression													{ $$ = StringConstantGrammarAction($1); }
 	;
 
 expression: CREATE OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }

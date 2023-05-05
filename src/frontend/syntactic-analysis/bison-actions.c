@@ -58,7 +58,7 @@ int ExpressionFactorGrammarAction(const int value) {
 }
 
 int InnerExpressionGrammarAction(const int value) {
-	LogDebug("\tInnerExpressionGrammarAction(%s)", value);
+	LogDebug("\tInnerExpressionGrammarAction(%d)", value);
 	return value;
 }
 
