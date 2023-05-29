@@ -10,7 +10,7 @@
 	/*
 	Program program;
 	Expression expression;
-	InnerExp innerExp;
+	block block;
 	Constant constant;
 	...
 	*/
@@ -18,7 +18,7 @@
 	// No-terminales (frontend).
 	int program;
 	int vmStructure;
-	int innerExp;
+	int block;
 	int text;
 	int integer;
 	int biostype;
@@ -54,7 +54,7 @@
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <integer> program
 %type <integer> vmStructure
-%type <integer> innerExp
+%type <integer> block
 %type <integer> text
 %type <integer> biostype
 %type <integer> netExp
@@ -88,10 +88,10 @@ vmunion: vmtype vmunion | vmtype												{ $$ = StringConstantGrammarAction($
 vmtype: text vmStructure													{ $$ = StringConstantGrammarAction($1); }
 	;
 
-vmStructure: CREATE VM OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
+vmStructure: CREATE VM OPEN_BRACKETS block CLOSE_BRACKETS						{ $$ = StringConstantGrammarAction($3); }
 	;
 
-innerExp: resources														{ $$ = NameGrammarAction($1); }	
+block: resources														{ $$ = NameGrammarAction($1); }	
 	;	
 
 text: STRING													{ $$ = StringConstantGrammarAction($1); }
