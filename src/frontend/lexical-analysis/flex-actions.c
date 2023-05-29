@@ -141,14 +141,14 @@ token BridgePatternAction(const char * lexeme) {
 	return BRIDGE;
 }
 
-token MacvtopPatternAction(const char * lexeme) {
-	LogDebug("MacvtopPatternAction: '%s' (length = %d).", lexeme);
-	yylval.token = MACVTOP;
-	return MACVTOP;
+token MacvtapPatternAction(const char * lexeme) {
+	LogDebug("MacvtapPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = MACVTAP;
+	return MACVTAP;
 }
 
-token LetterPatternAction(const char * lexeme, const int length) {
-	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
+token StringPatternAction(const char * lexeme, const int length) {
+	LogDebug("StringPatternAction: '%s' (length = %d).", lexeme, length);
 	yylval.token = STRING;
 	return STRING;
 }
@@ -176,8 +176,6 @@ token DotPatternAction(const char * lexeme) {
 	yylval.token = DOT;
 	return DOT;
 }
-
-
 
 token SubtractionOperatorPatternAction(const char * lexeme) {
 	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);

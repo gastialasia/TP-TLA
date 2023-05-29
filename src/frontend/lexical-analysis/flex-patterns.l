@@ -58,11 +58,11 @@ whitespace		[ \f\n\r\t\v]
 "so"                                        { return SoPatternAction(yytext); }
 "nat"                                       { return NatPatternAction(yytext); }
 "bridge"                                    { return BridgePatternAction(yytext); }
-"macvtop"                                   { return MacvtopPatternAction(yytext); }
+"macvtap"                                   { return MacvtapPatternAction(yytext); }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 
-{letter}+									{ return LetterPatternAction(yytext, yyleng); }
+{letter}+									{ return StringPatternAction(yytext, yyleng); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
 

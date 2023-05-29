@@ -43,8 +43,8 @@ token MacPatternAction(const char * lexeme);
 token SoPatternAction(const char * lexeme);
 token NatPatternAction(const char * lexeme);
 token BridgePatternAction(const char * lexeme);
-token MacvtopPatternAction(const char * lexeme);
-token LetterPatternAction(const char * lexeme, const int length);
+token MacvtapPatternAction(const char * lexeme);
+token StringPatternAction(const char * lexeme, const int length);
 token IntegerPatternAction(const char * lexeme, const int length);
 
 token AdditionOperatorPatternAction(const char * lexeme);
