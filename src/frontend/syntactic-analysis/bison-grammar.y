@@ -48,7 +48,7 @@
 %token <integer> VM
 %token <resource> NAME CORES RAM DISK ISO BIOS GB SO
 %token <biostype> UEFI LEGACY
-%token <integer> NET TYPE MAC
+%token <resource> NET TYPE MAC
 %token <nettype> NAT BRIDGE MACVTAP
 %token <operator> ADD SUB MUL
 %token <dottype> DOT
@@ -93,10 +93,7 @@ vmtype: text expression													{ $$ = StringConstantGrammarAction($1); }
 expression: CREATE VM OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
 	;
 
-innerExp: NAME text resources soresource resources						{ $$ = NameGrammarAction($2); }	
-	|	NAME text soresource resources									{ $$ = NameGrammarAction($2); }	
-	|	NAME text resources soresource									{ $$ = NameGrammarAction($2); }	
-	|	NAME text soresource											{ $$ = NameGrammarAction($2); }	
+innerExp: resources														{ $$ = NameGrammarAction($1); }	
 	;	
 
 text: STRING													{ $$ = StringConstantGrammarAction($1); }
@@ -117,7 +114,7 @@ resources: resource resources | resource										{ $$ = StringConstantGrammarAc
 soresource: SO text | ISO text										{ $$ = StringConstantGrammarAction($1); }
 	;
 
-resource: CORES variable | RAM variablegb | DISK variablegb | BIOS biostype | NET netExp	{ $$ = StringConstantGrammarAction($1); }
+resource: CORES variable | RAM variablegb | DISK variablegb | BIOS biostype | NET netExp | NAME text | soresource	{ $$ = StringConstantGrammarAction($1); }
 	;
 
 operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); }
