@@ -48,7 +48,10 @@ whitespace		[ \f\n\r\t\v]
 "iso"                                       { return IsoPatternAction(yytext); }
 "bios"                                      { return BiosPatternAction(yytext); }
 
-"G"                                         { return GbPatternAction(yytext); }
+"TB"                                         { return TbPatternAction(yytext); }
+"GB"                                         { return GbPatternAction(yytext); }
+"MB"                                         { return MbPatternAction(yytext); }
+"KB"                                         { return KbPatternAction(yytext); }
 "UEFI"                                      { return UEFIPatternAction(yytext); }
 "legacy"                                    { return legacyPatternAction(yytext); }
 

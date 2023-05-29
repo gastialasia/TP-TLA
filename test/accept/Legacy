@@ -1,8 +1,8 @@
 varName1 create vm {
 	name prueba
 	cores 10
-	ram 16G
-	disk 40G
+	ram 16GB
+	disk 40GB
 	iso path
 	bios legacy
 	net-controller {

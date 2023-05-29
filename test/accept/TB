@@ -1,5 +1,5 @@
 varName create vm {
 	name prueba
-	ram 16GB
 	iso path
+	disk 8TB
 }

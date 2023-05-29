@@ -87,10 +87,28 @@ token BiosPatternAction(const char * lexeme) {
 	return BIOS;
 }
 
+token TbPatternAction(const char * lexeme) {
+	LogDebug("TbPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = TB;
+	return TB;
+}
+
 token GbPatternAction(const char * lexeme) {
 	LogDebug("GbPatternAction: '%s' (length = %d).", lexeme);
 	yylval.token = GB;
 	return GB;
+}
+
+token MbPatternAction(const char * lexeme) {
+	LogDebug("MbPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = MB;
+	return MB;
+}
+
+token KbPatternAction(const char * lexeme) {
+	LogDebug("KbPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = KB;
+	return KB;
 }
 
 token UEFIPatternAction(const char * lexeme) {

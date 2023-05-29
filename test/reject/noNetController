@@ -2,7 +2,7 @@ myVM create vm {
 	name prueba
 	cores deber
 	ram 16
-	disk 40G
+	disk 40GB
 	iso path
 	bios legacy
 }

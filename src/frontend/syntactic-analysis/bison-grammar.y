@@ -17,19 +17,16 @@
 
 	// No-terminales (frontend).
 	int program;
-	int expression;
+	int vmStructure;
 	int innerExp;
 	int text;
 	int integer;
-	int	integergb;
 	int biostype;
 	int nettype;
 	int netExp;
 	int resource;
 	int operator;
-	int variable;
-	int variablegb;
-	int dottype;
+	int expression;
 	int vmtype;
 
 	// Terminales.
@@ -41,38 +38,39 @@
 %token <token> OPEN_BRACKETS
 %token <token> CLOSE_BRACKETS
 
-%token <variable> STRING
-%token <variable> INTEGER
+%token <integer> STRING
+%token <integer> INTEGER
 
 %token <integer> CREATE
 %token <integer> VM
-%token <resource> NAME CORES RAM DISK ISO BIOS GB SO
-%token <biostype> UEFI LEGACY
-%token <resource> NET TYPE MAC
-%token <nettype> NAT BRIDGE MACVTAP
-%token <operator> ADD SUB MUL
-%token <dottype> DOT
+%token <integer> NAME CORES RAM DISK ISO BIOS SO
+%token <integer> TB GB MB KB
+%token <integer> UEFI LEGACY
+%token <integer> NET TYPE MAC
+%token <integer> NAT BRIDGE MACVTAP
+%token <integer> ADD SUB MUL
+%token <integer> DOT
 
 // Tipos de dato para los no-terminales generados desde Bison.
-%type <program> program
-%type <expression> expression
-%type <innerExp> innerExp
-%type <text> text
-%type <biostype> biostype
-%type <netExp> netExp
-%type <nettype> nettype
-%type <resource> soresource
-%type <resource> resources
-%type <resource> resource
-%type <operator> operator
-%type <variable> variable
+%type <integer> program
+%type <integer> vmStructure
+%type <integer> innerExp
+%type <integer> text
+%type <integer> biostype
+%type <integer> netExp
+%type <integer> nettype
+%type <integer> soresource
+%type <integer> resources
+%type <integer> resource
+%type <integer> operator
+%type <integer> expression
 
-%type <dottype> dottype
-%type <variable> reference
-%type <vmtype> vmtype
-%type <vmtype> vmunion
-%type <variable> variablegb
-%type <variable> integergb
+%type <integer> reference
+%type <integer> vmtype
+%type <integer> vmunion
+%type <integer> variable
+%type <integer> component
+%type <integer> unit
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
 
@@ -87,10 +85,10 @@ program: vmunion 					 											{ $$ = ProgramGrammarAction($1); }
 vmunion: vmtype vmunion | vmtype												{ $$ = StringConstantGrammarAction($1); }
 	;
 
-vmtype: text expression													{ $$ = StringConstantGrammarAction($1); }
+vmtype: text vmStructure													{ $$ = StringConstantGrammarAction($1); }
 	;
 
-expression: CREATE VM OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
+vmStructure: CREATE VM OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
 	;
 
 innerExp: resources														{ $$ = NameGrammarAction($1); }	
@@ -114,25 +112,25 @@ resources: resource resources | resource										{ $$ = StringConstantGrammarAc
 soresource: SO text | ISO text										{ $$ = StringConstantGrammarAction($1); }
 	;
 
-resource: CORES variable | RAM variablegb | DISK variablegb | BIOS biostype | NET netExp | NAME text | soresource	{ $$ = StringConstantGrammarAction($1); }
+resource: component expression | BIOS biostype | NET netExp | NAME text | soresource	{ $$ = StringConstantGrammarAction($1); }
 	;
 
 operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); }
 	;
 
-variable: INTEGER | INTEGER operator INTEGER | reference | reference operator INTEGER | INTEGER operator reference	{ $$ = StringConstantGrammarAction($1); }
+expression: variable | variable operator variable										{ $$ = StringConstantGrammarAction($1); }
 	;
 
-variablegb: integergb | integergb operator integergb | reference | reference operator integergb | integergb operator reference	{ $$ = StringConstantGrammarAction($1); }
+variable: INTEGER | reference | INTEGER unit 												{ $$ = StringConstantGrammarAction($1); }
 	;
 
-integergb: INTEGER GB																{ $$ = StringConstantGrammarAction($1); }
+unit: TB | GB | MB | KB															{ $$ = StringConstantGrammarAction($1); }
 	;
 
-dottype: DOT																		{ $$ = StringConstantGrammarAction($1); }									
+reference: STRING DOT component													{ $$ = StringConstantGrammarAction($1); }
 	;
 
-reference: STRING dottype CORES | STRING dottype RAM | STRING dottype DISK												{ $$ = StringConstantGrammarAction($1); }
+component: CORES | RAM | DISK														{ $$ = StringConstantGrammarAction($1); }
 	;
 
 %%

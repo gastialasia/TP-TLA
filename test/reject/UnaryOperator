@@ -1,7 +1,7 @@
 varName create vm {
 	name prueba
 	iso path
-	ram 8+G
-	disk 22-2G
+	ram 8+GB
+	disk 22-2GB
 	cores vm1*2
 }

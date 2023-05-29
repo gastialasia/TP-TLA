@@ -1,9 +1,9 @@
 myVM create vm {
 	name prueba
 	cores vm1.cores
-	ram 16G
-	disk 40G
-	disk 30G
+	ram 16GB
+	disk 40GB
+	disk 30GB
 	iso path
 	bios legacy
 }

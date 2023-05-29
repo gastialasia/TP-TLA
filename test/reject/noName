@@ -1,7 +1,0 @@
-myVM create vm {
-	cores 10
-	ram 16
-	disk 40G
-	iso path
-	bios legacy
-}
