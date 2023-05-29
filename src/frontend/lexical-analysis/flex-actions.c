@@ -45,6 +45,12 @@ token CreatePatternAction(const char * lexeme) {
 	return CREATE;
 }
 
+token VmPatternAction(const char * lexeme) {
+	LogDebug("VmPatternAction: '%s' (length = %d).", lexeme);
+	yylval.token = VM;
+	return VM;
+}
+
 token NamePatternAction(const char * lexeme) {
 	LogDebug("NamePatternAction: '%s' (length = %d).", lexeme);
 	yylval.token = NAME;

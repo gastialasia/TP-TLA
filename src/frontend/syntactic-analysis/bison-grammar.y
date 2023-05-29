@@ -45,6 +45,7 @@
 %token <variable> INTEGER
 
 %token <integer> CREATE
+%token <integer> VM
 %token <resource> NAME CORES RAM DISK ISO BIOS GB SO
 %token <biostype> UEFI LEGACY
 %token <integer> NET TYPE MAC
@@ -89,7 +90,7 @@ vmunion: vmtype vmunion | vmtype												{ $$ = StringConstantGrammarAction($
 vmtype: constant2 expression													{ $$ = StringConstantGrammarAction($1); }
 	;
 
-expression: CREATE OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
+expression: CREATE VM OPEN_BRACKETS innerExp CLOSE_BRACKETS						{ $$ = InnerExpressionGrammarAction($3); }
 	;
 
 innerExp: NAME constant2 resources soresource resources						{ $$ = NameGrammarAction($2); }	

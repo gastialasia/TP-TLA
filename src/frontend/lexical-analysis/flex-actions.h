@@ -27,6 +27,7 @@ void EndCommentPatternAction();
 token OpenBracketPatternAction(const char * lexeme);
 token CloseBracketPatternAction(const char * lexeme);
 token CreatePatternAction(const char * lexeme);
+token VmPatternAction(const char * lexeme);
 token NamePatternAction(const char * lexeme);
 token CoresPatternAction(const char * lexeme);
 token RamPatternAction(const char * lexeme);

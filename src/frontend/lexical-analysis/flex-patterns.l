@@ -39,7 +39,8 @@ whitespace		[ \f\n\r\t\v]
 
 "."                                         { return DotPatternAction(yytext); }
 
-"create vm"                                 { return CreatePatternAction(yytext); }
+"create"                                    { return CreatePatternAction(yytext); }
+"vm"                                        { return VmPatternAction(yytext); }
 "name"                                      { return NamePatternAction(yytext); }
 "cores"                                     { return CoresPatternAction(yytext); }
 "ram"                                       { return RamPatternAction(yytext); }
