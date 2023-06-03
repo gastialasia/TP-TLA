@@ -18,8 +18,6 @@
 	// No-terminales (frontend).
 	int program;
 	int vmStructure;
-	int block;
-	int text;
 	int integer;
 	int biostype;
 	int nettype;
@@ -55,7 +53,6 @@
 %type <integer> program
 %type <integer> vmStructure
 %type <integer> block
-%type <integer> text
 %type <integer> biostype
 %type <integer> netExp
 %type <integer> nettype
@@ -65,7 +62,6 @@
 %type <integer> operator
 %type <integer> expression
 
-%type <integer> reference
 %type <integer> vmtype
 %type <integer> vmunion
 %type <integer> variable
@@ -85,19 +81,13 @@ program: vmunion 					 											{ $$ = ProgramGrammarAction($1); }
 vmunion: vmtype vmunion | vmtype												{ $$ = StringConstantGrammarAction($1); }
 	;
 
-vmtype: text vmStructure													{ $$ = StringConstantGrammarAction($1); }
+vmtype: STRING vmStructure													{ $$ = StringConstantGrammarAction($1); }
 	;
 
-vmStructure: CREATE VM OPEN_BRACKETS block CLOSE_BRACKETS						{ $$ = StringConstantGrammarAction($3); }
+vmStructure: CREATE VM OPEN_BRACKETS resources CLOSE_BRACKETS						{ $$ = StringConstantGrammarAction($3); }
 	;
 
-block: resources														{ $$ = NameGrammarAction($1); }	
-	;	
-
-text: STRING													{ $$ = StringConstantGrammarAction($1); }
-	;
-
-netExp: OPEN_BRACKETS TYPE nettype MAC text CLOSE_BRACKETS				{ $$ = StringConstantGrammarAction($3); }
+netExp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS				{ $$ = StringConstantGrammarAction($3); }
 	;
 
 biostype: UEFI | LEGACY															{ $$ = StringConstantGrammarAction($1); }
@@ -109,10 +99,10 @@ nettype: NAT | BRIDGE | MACVTAP															{ $$ = StringConstantGrammarAction
 resources: resource resources | resource										{ $$ = StringConstantGrammarAction($1); }
 	;
 
-soresource: SO text | ISO text										{ $$ = StringConstantGrammarAction($1); }
+soresource: SO STRING | ISO STRING										{ $$ = StringConstantGrammarAction($1); }
 	;
 
-resource: component expression | BIOS biostype | NET netExp | NAME text | soresource	{ $$ = StringConstantGrammarAction($1); }
+resource: component expression | BIOS biostype | NET netExp | NAME STRING | soresource	{ $$ = StringConstantGrammarAction($1); }
 	;
 
 operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); }
@@ -121,16 +111,14 @@ operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); 
 expression: variable | variable operator variable										{ $$ = StringConstantGrammarAction($1); }
 	;
 
-variable: INTEGER | reference | INTEGER unit 												{ $$ = StringConstantGrammarAction($1); }
+variable: INTEGER | STRING DOT component | INTEGER unit 												{ $$ = StringConstantGrammarAction($1); }
 	;
 
 unit: TB | GB | MB | KB															{ $$ = StringConstantGrammarAction($1); }
-	;
-
-reference: STRING DOT component													{ $$ = StringConstantGrammarAction($1); }
 	;
 
 component: CORES | RAM | DISK														{ $$ = StringConstantGrammarAction($1); }
 	;
 
 %%
+
