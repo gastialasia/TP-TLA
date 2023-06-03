@@ -81,10 +81,7 @@ program: vmunion 					 											{ $$ = ProgramGrammarAction($1); }
 vmunion: vmtype vmunion | vmtype												{ $$ = StringConstantGrammarAction($1); }
 	;
 
-vmtype: STRING vmStructure													{ $$ = StringConstantGrammarAction($1); }
-	;
-
-vmStructure: CREATE VM OPEN_BRACKETS resources CLOSE_BRACKETS						{ $$ = StringConstantGrammarAction($3); }
+vmtype: STRING CREATE VM OPEN_BRACKETS resources CLOSE_BRACKETS					{ $$ = StringConstantGrammarAction($1); }
 	;
 
 netExp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS				{ $$ = StringConstantGrammarAction($3); }
