@@ -1,56 +1,154 @@
 #ifndef ABSTRACT_SYNTAX_TREE_HEADER
 #define ABSTRACT_SYNTAX_TREE_HEADER
 
+typedef struct Program Program;
+typedef struct VmUnion VmUnion;
+typedef struct VmType VmType;
+typedef struct Resources Resources;
+typedef struct Resource Resource;
+typedef struct Component Component;
+typedef struct Expression Expression;
+typedef struct BiosType BiosType;
+typedef struct NetExp NetExp;
+typedef struct SoResource SoResource;
+typedef struct Variable Variable;
+typedef struct Operator Operator;
+typedef struct NetType NetType;
+typedef struct Unit Unit;
+
+//ProgramNode
+struct Program{
+	VmUnion * vmUnion;
+};
+
 /**
 * Se realiza este tipo de definiciones cuando el tipo de dato debe
 * auto-referenciarse, como es el caso de una "Expression", que está compuesta
 * de otras 2 expresiones.
 */
-typedef struct Expression Expression;
 
-/**
-* Para cada no-terminal se define una nueva estructura que representa su tipo
-* de dato y, por lo tanto, su nodo en el AST (Árbol de Sintaxis Abstracta).
-*/
-typedef struct {
-	int value;
-} Constant;
-
-/**
-* En caso de que un no-terminal ("Factor" en este caso), posea más de una
-* regla de producción asociada, se crea además de la estructura un enumerado
-* que identitifque cada reducción posible (cada regla de producción). Luego,
-* se agrega una instancia de este enumerado dentro del nodo del no-terminal.
-*
-* De este modo, al recorrer el AST, es posible determinar qué nodos hijos
-* posee según el valor de este enumerado.
-*/
+//Multiple type means there is more than one VM defined in a single file
 typedef enum {
-	EXPRESSION,
-	CONSTANT
-} FactorType;
+	SINGLEVM,
+	MULTIPLEVMS
+} VmUnionType;
 
-typedef struct {
-	FactorType type;
-	Expression * expression;
-} Factor;
-
-typedef enum {
-	ADDITION,
-	SUBTRACTION,
-	MULTIPLICATION,
-	DIVISION,
-	FACTOR
-} ExpressionType;
-
-struct Expression {
-	ExpressionType type;
-	Expression * leftExpression;
-	Expression * rightExpression;
+//Struct for non-terminals
+struct VmUnion{
+	VmUnionType vmUnionType;
+	VmUnion * vmUnion;
+	VmType * vmType;
 };
 
-typedef struct {
+struct VmType{
+	//Es el nombre de la variable de la estructura que contiene la configuracion de la VM
+	//No confundir con el nombre que se asigna a la Maquina virtual
+	Resources * resources;
+};
+
+typedef enum{
+	SINGLE,
+	MULTIPLE
+}	ResourcesType;
+
+struct Resources{
+	ResourcesType resourcesType;
+	Resource * resource;
+	Resources * resources;
+};
+
+struct Resource{
+	Component * component;
 	Expression * expression;
-} Program;
+	BiosType * biosType;
+	NetExp * netExp;
+	SoResource * soResource;
+};
+
+typedef enum{
+	CORESNUMBER,
+	RAMNUMBER,
+	DISKNUMBER
+} ComponentType;
+
+struct Component{
+	ComponentType componentType;
+};
+
+typedef enum{
+	WITHOUTOPERATOR,
+	WITHOPERATOR
+} ExpressionType;
+
+struct Expression{
+	ExpressionType expressionType;
+	Variable * variable;
+	Operator * operator;
+};
+
+typedef enum{
+	UEFISYSTEM,
+	LEGACYSYSTEM
+} BiosTypeType;
+
+struct BiosType{
+	BiosTypeType biosTypeType;
+};
+
+struct NetExp{
+	NetType * netType;
+};
+
+typedef enum{
+	SONAME,
+	ISOPATH
+} SoResourceType;
+
+struct SoResource{
+	SoResourceType soResourceType;
+};
+
+typedef enum{
+	NUMBER,
+	REFERENCE,
+	UNITNUMBER
+} VariableType;
+
+struct Variable{
+	VariableType variableType;
+	Component * component;
+	Unit * unit;
+};
+
+typedef enum{
+	ADDITION,
+	MULTIPLICATION,
+	SUBSTRACTION
+} OperatorType;
+
+struct Operator{
+	OperatorType operatorType;
+};
+
+typedef enum{
+	NATCONFIG,
+	BRIDGECONFIG,
+	MACVTAPCONFIG
+} NetTypeType;
+
+struct NetType{
+	NetTypeType netTypeType;
+};
+
+typedef enum{
+	TERAB,
+	GIGAB,
+	MEGAB,
+	KILOB
+} UnitType;
+
+struct Unit{
+	UnitType unitType;
+};
 
 #endif

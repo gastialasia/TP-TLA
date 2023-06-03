@@ -51,8 +51,6 @@
 
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <integer> program
-%type <integer> vmStructure
-%type <integer> block
 %type <integer> biostype
 %type <integer> netExp
 %type <integer> nettype
@@ -84,6 +82,12 @@ vmunion: vmtype vmunion | vmtype												{ $$ = StringConstantGrammarAction($
 vmtype: STRING CREATE VM OPEN_BRACKETS resources CLOSE_BRACKETS					{ $$ = StringConstantGrammarAction($1); }
 	;
 
+resources: resource resources | resource										{ $$ = StringConstantGrammarAction($1); }
+	;
+
+resource: component expression | BIOS biostype | NET netExp | NAME STRING | soresource	{ $$ = StringConstantGrammarAction($1); }
+	;
+
 netExp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS				{ $$ = StringConstantGrammarAction($3); }
 	;
 
@@ -93,13 +97,7 @@ biostype: UEFI | LEGACY															{ $$ = StringConstantGrammarAction($1); }
 nettype: NAT | BRIDGE | MACVTAP															{ $$ = StringConstantGrammarAction($1); }
 	;
 
-resources: resource resources | resource										{ $$ = StringConstantGrammarAction($1); }
-	;
-
 soresource: SO STRING | ISO STRING										{ $$ = StringConstantGrammarAction($1); }
-	;
-
-resource: component expression | BIOS biostype | NET netExp | NAME STRING | soresource	{ $$ = StringConstantGrammarAction($1); }
 	;
 
 operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); }
