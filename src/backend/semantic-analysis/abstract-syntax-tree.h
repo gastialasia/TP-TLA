@@ -47,8 +47,8 @@ struct VmType{
 };
 
 typedef enum{
-	SINGLE,
-	MULTIPLE
+	SINGLERESOURCES,
+	MULTIPLERESOURCES
 }	ResourcesType;
 
 struct Resources{
@@ -57,7 +57,16 @@ struct Resources{
 	Resources * resources;
 };
 
+typedef enum{
+	COMPONENTCONFIG,
+	BIOSCONFIG,
+	NETCONFIG,
+	NAMESTRING,
+	SOCONFIG
+}	ResourceType;
+
 struct Resource{
+	ResourceType * resourceType;
 	Component * component;
 	Expression * expression;
 	BiosType * biosType;
@@ -82,7 +91,8 @@ typedef enum{
 
 struct Expression{
 	ExpressionType expressionType;
-	Variable * variable;
+	Variable * variable1;
+	Variable * variable2;
 	Operator * operator;
 };
 

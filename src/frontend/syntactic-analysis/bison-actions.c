@@ -28,52 +28,286 @@ void yyerror(const char * string) {
 * indica que efectivamente el programa de entrada se pudo generar con esta
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
-int ProgramGrammarAction(const int value) {
-	LogDebug("\tProgramGrammarAction(%s)", value);
-	/*
-	* "state" es una variable global que almacena el estado del compilador,
-	* cuyo campo "succeed" indica si la compilación fue o no exitosa, la cual
-	* es utilizada en la función "main".
-	*/
+Program * ProgramGrammarAction(VmUnion * vmUnion) {
+
+	//LogDebug("\tProgramGrammarAction(%s)", value);
+
 	state.succeed = true;
-	/*
-	* Por otro lado, "result" contiene el resultado de aplicar el análisis
-	* sintáctico mediante Bison, y almacenar el nood raíz del AST construido
-	* en esta variable. Para el ejemplo de la calculadora, no hay AST porque
-	* la expresión se computa on-the-fly, y es la razón por la cual esta
-	* variable es un simple entero, en lugar de un nodo.
-	*/
-	state.result = value;
-	return value;
+	
+	Program * newNode = malloc(sizeof(Program));
+	newNode->vmUnion = vmUnion;
+	state.program = newNode;
+	return newNode;
 }
 
-int FactorExpressionGrammarAction(const int value) {
-	LogDebug("\tFactorExpressionGrammarAction(%s)", value);
-	return value;
+VmUnion * SingleVmGrammarAction(VmType * vmType) {
+	VmUnion * newNode = malloc(sizeof(VmUnion));
+	newNode->vmUnionType = SINGLEVM;
+	newNode->vmType = vmType;
+	newNode->vmUnion = NULL;
+	return newNode;
 }
 
-int ExpressionFactorGrammarAction(const int value) {
-	LogDebug("\tExpressionFactorGrammarAction(%s)", value);
-	return value;
+VmUnion * MultipleVmsGrammarAction(VmType * vmType, VmUnion * vmUnion) {
+	VmUnion * newNode = malloc(sizeof(VmUnion));
+	newNode->vmUnionType = MULTIPLEVMS;
+	newNode->vmType = vmType;
+	newNode->vmUnion = vmUnion;
+	return newNode;
 }
 
-int InnerExpressionGrammarAction(const int value) {
-	LogDebug("\tInnerExpressionGrammarAction(%d)", value);
-	return value;
+VmType * VmTypeGrammarAction(Resources * resources) {
+	VmType * newNode = malloc(sizeof(VmType));
+	newNode->resources=resources;
+	return newNode;
 }
 
-int ConstantFactorGrammarAction(const int value) {
-	LogDebug("\tConstantFactorGrammarAction(%s)", value);
-	return value;
+Resources * SingleResourcesGrammarAction(Resource * resource) {
+	Resources * newNode = malloc(sizeof(Resources));
+	newNode->resourcesType = SINGLERESOURCES;
+	newNode->resource=resource;
+	newNode->resources=NULL;
+	return newNode;
 }
 
-int StringConstantGrammarAction(const int value) {
-	LogDebug("\tStringConstantGrammarAction(%s)", value);
-	return value;
+Resources * MultipleResourcesGrammarAction(Resource * resource, Resources * resources) {
+	Resources * newNode = malloc(sizeof(Resources));
+	newNode->resourcesType = MULTIPLERESOURCES;
+	newNode->resource=resource;
+	newNode->resources=resources;
+	return newNode;
 }
 
-int NameGrammarAction(const int value) {
-	LogDebug("\tNameGrammarAction(%s)", value);
-	return value;
+//-----
+
+Resource * ComponentConfigGrammarAction(Component * component, Expression * expression){
+	Resource * newNode = malloc(sizeof(Resource));
+	newNode->resourceType = COMPONENTCONFIG;
+	newNode->component = component;
+	newNode->expression = expression;
+	newNode->biosType = NULL;
+	newNode->netExp = NULL;
+	newNode->soResource = NULL;
+	return newNode;
 }
+
+Resource * BiosConfigGrammarAction(BiosType * biostype){
+	Resource * newNode = malloc(sizeof(Resource));
+	newNode->resourceType = BIOSCONFIG;
+	newNode->component = NULL;
+	newNode->expression = NULL;
+	newNode->biosType = biostype;
+	newNode->netExp = NULL;
+	newNode->soResource = NULL;
+	return newNode;
+}
+
+Resource * NetConfigGrammarAction(NetExp * netExp){
+	Resource * newNode = malloc(sizeof(Resource));
+	newNode->resourceType = NETCONFIG;
+	newNode->component = NULL;
+	newNode->expression = NULL;
+	newNode->biosType = NULL;
+	newNode->netExp = netExp;
+	newNode->soResource = NULL;
+	return newNode;
+}
+
+Resource * NameStringGrammarAction(){
+	Resource * newNode = malloc(sizeof(Resource));
+	newNode->resourceType = NAMESTRING;
+	newNode->component = NULL;
+	newNode->expression = NULL;
+	newNode->biosType = NULL;
+	newNode->netExp = NULL;
+	newNode->soResource = NULL;
+	return newNode;
+}
+
+Resource * SoConfigGrammarAction(SoResource * soresource){
+	Resource * newNode = malloc(sizeof(Resource));
+	newNode->resourceType = SOCONFIG;
+	newNode->component = NULL;
+	newNode->expression = NULL;
+	newNode->biosType = NULL;
+	newNode->netExp = NULL;
+	newNode->soResource = soresource;
+	return newNode;
+}
+
+//-----
+
+NetExp * NetExpGrammarAction(NetType * netType){
+	NetExp * newNode = malloc(sizeof(NetExp));
+	newNode->netType=netType;
+	return newNode;
+}
+
+BiosType * UefiSystemGrammarAction(){
+	BiosType * newNode = malloc(sizeof(BiosType));
+	newNode->biosTypeType = UEFISYSTEM;
+	return newNode;
+}
+
+BiosType * LegacySystemGrammarAction(){
+	BiosType * newNode = malloc(sizeof(BiosType));
+	newNode->biosTypeType = LEGACYSYSTEM;
+	return newNode;
+}
+
+NetType * NatConfigGrammarAction(){
+	NetType * newNode = malloc(sizeof(NetType));
+	newNode->netTypeType = NATCONFIG;
+	return newNode;
+}
+
+NetType * BridgeConfigGrammarAction(){
+	NetType * newNode = malloc(sizeof(NetType));
+	newNode->netTypeType = BRIDGECONFIG;
+	return newNode;
+}
+
+NetType * MacvtapConfigGrammarAction(){
+	NetType * newNode = malloc(sizeof(NetType));
+	newNode->netTypeType = MACVTAPCONFIG;
+	return newNode;
+}
+
+SoResource * SoNameGrammarAction(){
+	SoResource * newNode = malloc(sizeof(SoResource));
+	newNode->soResourceType = SONAME;
+	return newNode;
+}
+
+SoResource * IsoPathGrammarAction(){
+	SoResource * newNode = malloc(sizeof(SoResource));
+	newNode->soResourceType = ISOPATH;
+	return newNode;
+}
+
+Operator * AdditionGrammarAction(){
+	Operator * newNode = malloc(sizeof(Operator));
+	newNode->operatorType = ADDITION;
+	return newNode;
+}
+
+Operator * MultiplicationGrammarAction(){
+	Operator * newNode = malloc(sizeof(Operator));
+	newNode->operatorType = MULTIPLICATION;
+	return newNode;
+}
+
+Operator * SubstractionGrammarAction(){
+	Operator * newNode = malloc(sizeof(Operator));
+	newNode->operatorType = SUBSTRACTION;
+	return newNode;
+}
+
+Expression * WithoutOperatorGrammarAction(Variable * variable){
+	Expression * newNode = malloc(sizeof(Expression));
+	newNode->expressionType = WITHOUTOPERATOR;
+	newNode->operator=NULL;
+	newNode->variable1=variable;
+	newNode->variable2=NULL;
+	return newNode;
+}
+
+Expression * WithOperatorGrammarAction(Variable * variable1, Operator * operator, Variable * variable2){
+	Expression * newNode = malloc(sizeof(Expression));
+	newNode->expressionType = WITHOPERATOR;
+	newNode->operator=operator;
+	newNode->variable1=variable1;
+	newNode->variable2=variable2;
+	return newNode;
+}
+
+Variable * NumberGrammarAction(){
+	Variable * newNode = malloc(sizeof(Variable));
+	newNode->variableType = NUMBER;
+	newNode->component = NULL;
+	newNode->unit = NULL;
+	return newNode;
+}
+
+Variable * ReferenceGrammarAction(Component * component){
+	Variable * newNode = malloc(sizeof(Variable));
+	newNode->variableType = REFERENCE;
+	newNode->component = component;
+	newNode->unit = NULL;
+	return newNode;
+}
+
+Variable * UnitNumberGrammarAction(Unit * unit){
+	Variable * newNode = malloc(sizeof(Variable));
+	newNode->variableType = UNITNUMBER;
+	newNode->component = NULL;
+	newNode->unit = unit;
+	return newNode;
+}
+
+Unit * TerabGrammarAction(){
+	Unit * newNode = malloc(sizeof(Unit));
+	newNode->unitType = TERAB;
+	return newNode;
+}
+
+Unit * GigabGrammarAction(){
+	Unit * newNode = malloc(sizeof(Unit));
+	newNode->unitType = GIGAB;
+	return newNode;
+}
+
+Unit * MegabGrammarAction(){
+	Unit * newNode = malloc(sizeof(Unit));
+	newNode->unitType = MEGAB;
+	return newNode;
+}
+
+Unit * KilobGrammarAction(){
+	Unit * newNode = malloc(sizeof(Unit));
+	newNode->unitType = KILOB;
+	return newNode;
+}
+
+Component * CoresNumberGrammarAction(){
+	Component * newNode = malloc(sizeof(Component));
+	newNode->componentType = CORESNUMBER;
+	return newNode;
+}
+
+Component * RamNumberGrammarAction(){
+	Component * newNode = malloc(sizeof(Component));
+	newNode->componentType = RAMNUMBER;
+	return newNode;
+}
+
+Component * DiskNumberGrammarAction(){
+	Component * newNode = malloc(sizeof(Component));
+	newNode->componentType = DISKNUMBER;
+	return newNode;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

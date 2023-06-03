@@ -76,43 +76,63 @@
 program: vmunion 					 											{ $$ = ProgramGrammarAction($1); }
 	;
 
-vmunion: vmtype vmunion | vmtype												{ $$ = StringConstantGrammarAction($1); }
+vmunion: vmtype  																{ $$ = SingleVmGrammarAction($1); }
+	| vmtype vmunion															{ $$ = MultipleVmsGrammarAction($1, $2); }
 	;
 
-vmtype: STRING CREATE VM OPEN_BRACKETS resources CLOSE_BRACKETS					{ $$ = StringConstantGrammarAction($1); }
+vmtype: STRING CREATE VM OPEN_BRACKETS resources CLOSE_BRACKETS					{ $$ = VmTypeGrammarAction($5); }
 	;
 
-resources: resource resources | resource										{ $$ = StringConstantGrammarAction($1); }
+resources: resource																{ $$ = SingleResourcesGrammarAction($1); }
+	| resource resources														{ $$ = MultipleResourcesGrammarAction($1, $2); }
 	;
 
-resource: component expression | BIOS biostype | NET netExp | NAME STRING | soresource	{ $$ = StringConstantGrammarAction($1); }
+resource: component expression 													{ $$ = ComponentExpGrammarAction($1, $2); }
+	| BIOS biostype 															{ $$ = BiosExpGrammarAction($2); }
+	| NET netExp 																{ $$ = NetExpGrammarAction($2); }
+	| NAME STRING 																{ $$ = NameStringGrammarAction(); }
+	| soresource																{ $$ = SoExpGrammarAction($1); }
 	;
 
-netExp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS				{ $$ = StringConstantGrammarAction($3); }
+netExp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS					{ $$ = NetExpGrammarAction($3); }
 	;
 
-biostype: UEFI | LEGACY															{ $$ = StringConstantGrammarAction($1); }
+biostype: UEFI 																	{ $$ = UefiSystemGrammarAction(); }
+	| LEGACY																	{ $$ = LegacySystemGrammarAction(); }
 	;
 
-nettype: NAT | BRIDGE | MACVTAP															{ $$ = StringConstantGrammarAction($1); }
+nettype: NAT 																	{ $$ = NatConfigGrammarAction(); }
+	| BRIDGE 																	{ $$ = BridgeConfigGrammarAction(); }
+	| MACVTAP																	{ $$ = MacvtapConfigGrammarAction(); }
 	;
 
-soresource: SO STRING | ISO STRING										{ $$ = StringConstantGrammarAction($1); }
+soresource: SO STRING 															{ $$ = SoNameGrammarAction(); }
+	| ISO STRING																{ $$ = IsoPathGrammarAction(); }
 	;
 
-operator: ADD | MUL | SUB															{ $$ = StringConstantGrammarAction($1); }
+operator: ADD 																	{ $$ = AdditionGrammarAction(); }
+	| MUL 																		{ $$ = MultiplicationGrammarAction(); }
+	| SUB																		{ $$ = SubstractionGrammarAction(); }
 	;
 
-expression: variable | variable operator variable										{ $$ = StringConstantGrammarAction($1); }
+expression: variable 															{ $$ = WithoutOperatorGrammarAction($1); }
+	| variable operator variable												{ $$ = WithOperatorGrammarAction($1, $2, $3); }
 	;
 
-variable: INTEGER | STRING DOT component | INTEGER unit 												{ $$ = StringConstantGrammarAction($1); }
+variable: INTEGER 																{ $$ = NumberGrammarAction(); }
+	| STRING DOT component 														{ $$ = ReferenceGrammarAction($3); }
+	| INTEGER unit 																{ $$ = UnitNumberGrammarAction($2); }
 	;
 
-unit: TB | GB | MB | KB															{ $$ = StringConstantGrammarAction($1); }
+unit: TB 																		{ $$ = TerabGrammarAction(); }
+	| GB 																		{ $$ = GigabGrammarAction(); }
+	| MB 																		{ $$ = MegabGrammarAction(); }
+	| KB																		{ $$ = KilobGrammarAction(); }
 	;
 
-component: CORES | RAM | DISK														{ $$ = StringConstantGrammarAction($1); }
+component: CORES 																{ $$ = CoresNumberGrammarAction(); }
+	| RAM 																		{ $$ = RamNumberGrammarAction(); }
+	| DISK																		{ $$ = DiskNumberGrammarAction(); }
 	;
 
 %%
