@@ -3,6 +3,7 @@
 #include "bison-actions.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 /**
  * Implementación de "bison-grammar.h".

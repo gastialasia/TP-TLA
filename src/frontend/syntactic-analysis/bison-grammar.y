@@ -7,64 +7,59 @@
 // Tipos de dato utilizados en las variables semánticas ($$, $1, $2, etc.).
 %union {
 	// No-terminales (backend).
-	/*
-	Program program;
-	Expression expression;
-	block block;
-	Constant constant;
-	...
-	*/
-
-	// No-terminales (frontend).
-	int program;
-	int vmStructure;
-	int integer;
-	int biostype;
-	int nettype;
-	int netExp;
-	int resource;
-	int operator;
-	int expression;
-	int vmtype;
+	Program * program;
+	VmUnion * vmunion;
+	VmType * vmtype;
+	Resources * resources;
+	Resource * resource;
+	NetExp * netexp;
+	BiosType * biostype;
+	NetType * nettype;
+	SoResource * soresource;
+	Operator * operator;
+	Expression * expression;
+	Variable * variable;
+	Unit * unit;
+	Component * component;
 
 	// Terminales.
 	token token;
-	int str;
+	char* str;
+	int integer;
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
 %token <token> OPEN_BRACKETS
 %token <token> CLOSE_BRACKETS
 
-%token <integer> STRING
+%token <str> STRING
 %token <integer> INTEGER
 
-%token <integer> CREATE
-%token <integer> VM
-%token <integer> NAME CORES RAM DISK ISO BIOS SO
-%token <integer> TB GB MB KB
-%token <integer> UEFI LEGACY
-%token <integer> NET TYPE MAC
-%token <integer> NAT BRIDGE MACVTAP
-%token <integer> ADD SUB MUL
-%token <integer> DOT
+%token <token> CREATE
+%token <token> VM
+%token <token> NAME CORES RAM DISK ISO BIOS SO
+%token <token> TB GB MB KB
+%token <token> UEFI LEGACY
+%token <token> NET TYPE MAC
+%token <token> NAT BRIDGE MACVTAP
+%token <token> ADD SUB MUL
+%token <token> DOT
 
 // Tipos de dato para los no-terminales generados desde Bison.
-%type <integer> program
-%type <integer> biostype
-%type <integer> netExp
-%type <integer> nettype
-%type <integer> soresource
-%type <integer> resources
-%type <integer> resource
-%type <integer> operator
-%type <integer> expression
-
-%type <integer> vmtype
-%type <integer> vmunion
-%type <integer> variable
-%type <integer> component
-%type <integer> unit
+%type <program> program
+%type <vmunion> vmunion;
+%type <vmtype> vmtype;
+%type <resources> resources;
+%type <resource> resource;
+%type <netexp> netexp;
+%type <biostype> biostype;
+%type <nettype> nettype;
+%type <soresource> soresource;
+%type <operator> operator;
+%type <expression> expression;
+%type <variable> variable;
+%type <unit> unit;
+%type <component> component;
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
 
@@ -87,14 +82,14 @@ resources: resource																{ $$ = SingleResourcesGrammarAction($1); }
 	| resource resources														{ $$ = MultipleResourcesGrammarAction($1, $2); }
 	;
 
-resource: component expression 													{ $$ = ComponentExpGrammarAction($1, $2); }
-	| BIOS biostype 															{ $$ = BiosExpGrammarAction($2); }
-	| NET netExp 																{ $$ = NetExpGrammarAction($2); }
+resource: component expression 													{ $$ = ComponentConfigGrammarAction($1, $2); }
+	| BIOS biostype 															{ $$ = BiosConfigGrammarAction($2); }
+	| NET netexp 																{ $$ = NetConfigGrammarAction($2); }
 	| NAME STRING 																{ $$ = NameStringGrammarAction(); }
-	| soresource																{ $$ = SoExpGrammarAction($1); }
+	| soresource																{ $$ = SoConfigGrammarAction($1); }
 	;
 
-netExp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS					{ $$ = NetExpGrammarAction($3); }
+netexp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS					{ $$ = NetExpGrammarAction($3); }
 	;
 
 biostype: UEFI 																	{ $$ = UefiSystemGrammarAction(); }

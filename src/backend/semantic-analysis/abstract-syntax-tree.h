@@ -66,7 +66,7 @@ typedef enum{
 }	ResourceType;
 
 struct Resource{
-	ResourceType * resourceType;
+	ResourceType resourceType;
 	Component * component;
 	Expression * expression;
 	BiosType * biosType;

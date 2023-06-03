@@ -12,20 +12,72 @@
  */
 
 // Programa.
-int ProgramGrammarAction(const int value);
+Program * ProgramGrammarAction(VmUnion * vmUnion);
 
-// Expresión.
-int FactorExpressionGrammarAction(const int value);
+VmUnion * SingleVmGrammarAction(VmType * vmType);
 
-// Factores.
-int ExpressionFactorGrammarAction(const int value);
-int ConstantFactorGrammarAction(const int value);
+VmUnion * MultipleVmsGrammarAction(VmType * vmType, VmUnion * vmUnion);
 
-// Constantes.
-int StringConstantGrammarAction(const int value);
+VmType * VmTypeGrammarAction(Resources * resources);
 
-int InnerExpressionGrammarAction(const int value);
+Resources * SingleResourcesGrammarAction(Resource * resource);
 
-int NameGrammarAction(const int value);
+Resources * MultipleResourcesGrammarAction(Resource * resource, Resources * resources);
+
+Resource * ComponentConfigGrammarAction(Component * component, Expression * expression);
+
+Resource * BiosConfigGrammarAction(BiosType * biostype);
+
+Resource * NetConfigGrammarAction(NetExp * netExp);
+
+Resource * NameStringGrammarAction();
+
+Resource * SoConfigGrammarAction(SoResource * soresource);
+
+NetExp * NetExpGrammarAction(NetType * netType);
+
+BiosType * UefiSystemGrammarAction();
+
+BiosType * LegacySystemGrammarAction();
+
+NetType * NatConfigGrammarAction();
+
+NetType * BridgeConfigGrammarAction();
+
+NetType * MacvtapConfigGrammarAction();
+
+SoResource * SoNameGrammarAction();
+
+SoResource * IsoPathGrammarAction();
+
+Operator * AdditionGrammarAction();
+
+Operator * MultiplicationGrammarAction();
+
+Operator * SubstractionGrammarAction();
+
+Expression * WithoutOperatorGrammarAction(Variable * variable);
+
+Expression * WithOperatorGrammarAction(Variable * variable1, Operator * operator, Variable * variable2);
+
+Variable * NumberGrammarAction();
+
+Variable * ReferenceGrammarAction(Component * component);
+
+Variable * UnitNumberGrammarAction(Unit * unit);
+
+Unit * TerabGrammarAction();
+
+Unit * GigabGrammarAction();
+
+Unit * MegabGrammarAction();
+
+Unit * KilobGrammarAction();
+
+Component * CoresNumberGrammarAction();
+
+Component * RamNumberGrammarAction();
+
+Component * DiskNumberGrammarAction();
 
 #endif
