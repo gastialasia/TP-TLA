@@ -165,15 +165,20 @@ token MacvtapPatternAction(const char * lexeme) {
 	return MACVTAP;
 }
 
-token StringPatternAction(const char * lexeme, const int length) {
+int StringPatternAction(const char * lexeme, const int length) {
 	LogDebug("StringPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.token = STRING;
+	char * text = (char *) calloc(length+1, sizeof(char));
+	strncpy(text, lexeme, length);
+	yylval.str = text;
 	return STRING;
 }
 
-token IntegerPatternAction(const char * lexeme, const int length) {
+int IntegerPatternAction(const char * lexeme, const int length) {
 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.integer = atoi(lexeme);
+	char * text = (char *) calloc(length+1, sizeof(char));
+	strncpy(text, lexeme, length);
+	yylval.integer = atoi(text);
+	free(text);
 	return INTEGER;
 }
 
