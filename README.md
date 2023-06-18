@@ -70,3 +70,17 @@ user@machine:path/ $ script\test.bat
 ```
 
 Si desea agregar nuevos casos de uso, deberá crear un archivo por cada uno, que contenga el programa a testear dentro de las carpetas `test/accept` o `test/reject` según corresponda (es decir, si el mismo debe ser aceptado o rechazado por el compilador).
+
+## LIBRERIA SETS
+
+ Program: Set Data Structure
+ 
+ Description: Example of a set data structure and operations (union, subset,
+ intersection, etc.) implemented in C.  See the Wikipedia article on Sets:
+ https://en.wikipedia.org/wiki/Set_(mathematics)
+
+ YouTube Lesson: https://www.youtube.com/watch?v=RVqdK6WAjUI
+
+ Author: Kevin Browne @ https://portfoliocourses.com
+
+ Github: https://github.com/portfoliocourses/c-example-code/blob/main/sets.c
