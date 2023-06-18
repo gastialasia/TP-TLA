@@ -18,7 +18,7 @@ VmUnion * SingleVmGrammarAction(VmType * vmType);
 
 VmUnion * MultipleVmsGrammarAction(VmType * vmType, VmUnion * vmUnion);
 
-VmType * VmTypeGrammarAction(Resources * resources);
+VmType * VmTypeGrammarAction(char * varName, Resources * resources);
 
 Resources * SingleResourcesGrammarAction(Resource * resource);
 
@@ -34,7 +34,7 @@ Resource * NameStringGrammarAction();
 
 Resource * SoConfigGrammarAction(SoResource * soresource);
 
-NetExp * NetExpGrammarAction(NetType * netType);
+NetExp * NetExpGrammarAction(NetType * netType, char * macAddr);
 
 BiosType * UefiSystemGrammarAction();
 
@@ -60,11 +60,11 @@ Expression * WithoutOperatorGrammarAction(Variable * variable);
 
 Expression * WithOperatorGrammarAction(Variable * variable1, Operator * operator, Variable * variable2);
 
-Variable * NumberGrammarAction();
+Variable * NumberGrammarAction(int number);
 
-Variable * ReferenceGrammarAction(Component * component);
+Variable * ReferenceGrammarAction(char * varName, Component * component);
 
-Variable * UnitNumberGrammarAction(Unit * unit);
+Variable * UnitNumberGrammarAction(int number, Unit * unit);
 
 Unit * TerabGrammarAction();
 

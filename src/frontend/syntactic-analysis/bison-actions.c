@@ -57,7 +57,7 @@ VmUnion * MultipleVmsGrammarAction(VmType * vmType, VmUnion * vmUnion) {
 	return newNode;
 }
 
-VmType * VmTypeGrammarAction(Resources * resources) {
+VmType * VmTypeGrammarAction(char * varName, Resources * resources) {
 	VmType * newNode = malloc(sizeof(VmType));
 	newNode->resources=resources;
 	return newNode;
@@ -114,7 +114,7 @@ Resource * NetConfigGrammarAction(NetExp * netExp){
 	return newNode;
 }
 
-Resource * NameStringGrammarAction(){
+Resource * NameStringGrammarAction(char * vmName){
 	Resource * newNode = malloc(sizeof(Resource));
 	newNode->resourceType = NAMESTRING;
 	newNode->component = NULL;
@@ -138,7 +138,7 @@ Resource * SoConfigGrammarAction(SoResource * soresource){
 
 //-----
 
-NetExp * NetExpGrammarAction(NetType * netType){
+NetExp * NetExpGrammarAction(NetType * netType, char * macAddr){
 	NetExp * newNode = malloc(sizeof(NetExp));
 	newNode->netType=netType;
 	return newNode;
@@ -174,13 +174,13 @@ NetType * MacvtapConfigGrammarAction(){
 	return newNode;
 }
 
-SoResource * SoNameGrammarAction(){
+SoResource * SoNameGrammarAction(char * soName){
 	SoResource * newNode = malloc(sizeof(SoResource));
 	newNode->soResourceType = SONAME;
 	return newNode;
 }
 
-SoResource * IsoPathGrammarAction(){
+SoResource * IsoPathGrammarAction(char * isoPath){
 	SoResource * newNode = malloc(sizeof(SoResource));
 	newNode->soResourceType = ISOPATH;
 	return newNode;
@@ -222,7 +222,7 @@ Expression * WithOperatorGrammarAction(Variable * variable1, Operator * operator
 	return newNode;
 }
 
-Variable * NumberGrammarAction(){
+Variable * NumberGrammarAction(int number){
 	Variable * newNode = malloc(sizeof(Variable));
 	newNode->variableType = NUMBER;
 	newNode->component = NULL;
@@ -230,7 +230,7 @@ Variable * NumberGrammarAction(){
 	return newNode;
 }
 
-Variable * ReferenceGrammarAction(Component * component){
+Variable * ReferenceGrammarAction(char * varName, Component * component){
 	Variable * newNode = malloc(sizeof(Variable));
 	newNode->variableType = REFERENCE;
 	newNode->component = component;
@@ -238,7 +238,7 @@ Variable * ReferenceGrammarAction(Component * component){
 	return newNode;
 }
 
-Variable * UnitNumberGrammarAction(Unit * unit){
+Variable * UnitNumberGrammarAction(int number, Unit * unit){
 	Variable * newNode = malloc(sizeof(Variable));
 	newNode->variableType = UNITNUMBER;
 	newNode->component = NULL;

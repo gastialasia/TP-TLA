@@ -75,7 +75,7 @@ vmunion: vmtype  																{ $$ = SingleVmGrammarAction($1); }
 	| vmtype vmunion															{ $$ = MultipleVmsGrammarAction($1, $2); }
 	;
 
-vmtype: STRING CREATE VM OPEN_BRACKETS resources CLOSE_BRACKETS					{ $$ = VmTypeGrammarAction($5); }
+vmtype:STRING CREATE VM OPEN_BRACKETS resources CLOSE_BRACKETS					{ $$ = VmTypeGrammarAction($1, $5); }
 	;
 
 resources: resource																{ $$ = SingleResourcesGrammarAction($1); }
@@ -85,11 +85,11 @@ resources: resource																{ $$ = SingleResourcesGrammarAction($1); }
 resource: component expression 													{ $$ = ComponentConfigGrammarAction($1, $2); }
 	| BIOS biostype 															{ $$ = BiosConfigGrammarAction($2); }
 	| NET netexp 																{ $$ = NetConfigGrammarAction($2); }
-	| NAME STRING 																{ $$ = NameStringGrammarAction(); }
+	| NAME STRING 																{ $$ = NameStringGrammarAction($2); }
 	| soresource																{ $$ = SoConfigGrammarAction($1); }
 	;
 
-netexp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS					{ $$ = NetExpGrammarAction($3); }
+netexp: OPEN_BRACKETS TYPE nettype MAC STRING CLOSE_BRACKETS					{ $$ = NetExpGrammarAction($3, $5); }
 	;
 
 biostype: UEFI 																	{ $$ = UefiSystemGrammarAction(); }
@@ -101,8 +101,8 @@ nettype: NAT 																	{ $$ = NatConfigGrammarAction(); }
 	| MACVTAP																	{ $$ = MacvtapConfigGrammarAction(); }
 	;
 
-soresource: SO STRING 															{ $$ = SoNameGrammarAction(); }
-	| ISO STRING																{ $$ = IsoPathGrammarAction(); }
+soresource: SO STRING 															{ $$ = SoNameGrammarAction($2); }
+	| ISO STRING																{ $$ = IsoPathGrammarAction($2); }
 	;
 
 operator: ADD 																	{ $$ = AdditionGrammarAction(); }
@@ -114,9 +114,9 @@ expression: variable 															{ $$ = WithoutOperatorGrammarAction($1); }
 	| variable operator variable												{ $$ = WithOperatorGrammarAction($1, $2, $3); }
 	;
 
-variable: INTEGER 																{ $$ = NumberGrammarAction(); }
-	| STRING DOT component 														{ $$ = ReferenceGrammarAction($3); }
-	| INTEGER unit 																{ $$ = UnitNumberGrammarAction($2); }
+variable: INTEGER 																{ $$ = NumberGrammarAction($1); }
+	| STRING DOT component 														{ $$ = ReferenceGrammarAction($1, $3); }
+	| INTEGER unit 																{ $$ = UnitNumberGrammarAction($1, $2); }
 	;
 
 unit: TB 																		{ $$ = TerabGrammarAction(); }
