@@ -1,5 +1,6 @@
 #include "../../backend/domain-specific/calculator.h"
 #include "../../backend/support/logger.h"
+#include "../../backend/symbol-table/sets.h"
 #include "bison-actions.h"
 #include <stdio.h>
 #include <string.h>
@@ -58,6 +59,14 @@ VmUnion * MultipleVmsGrammarAction(VmType * vmType, VmUnion * vmUnion) {
 }
 
 VmType * VmTypeGrammarAction(char * varName, Resources * resources) {
+	if(is_member(state.symbolTable, varName)){
+		char error[50];
+		sprintf(error, "Error: %s redeclarado\n", varName);
+		yyerror(error);
+		state.succeed = false;
+		abort();
+	}
+	insert(state.symbolTable, varName);
 	VmType * newNode = malloc(sizeof(VmType));
 	newNode->resources=resources;
 	return newNode;

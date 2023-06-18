@@ -11,17 +11,8 @@
 * Author: Kevin Browne @ https://portfoliocourses.com
 *
 *******************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include "sets.h"
 
-// define the Set data structure
-typedef struct {
-  char**members;    // pointer to dynamically allocated array of the set members
-  int length;      // the number of members of the set
-} Set;
+#include "sets.h"
 
 // returns a pointer to a new Set allocated on the heap
 Set* init()
