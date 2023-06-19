@@ -134,6 +134,7 @@ struct Variable{
 	Component * component;
 	Unit * unit;
 	char* varName;
+	int number;
 };
 
 typedef enum{

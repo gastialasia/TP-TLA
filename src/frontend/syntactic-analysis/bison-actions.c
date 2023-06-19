@@ -246,6 +246,7 @@ Variable * NumberGrammarAction(int number){
 	newNode->variableType = NUMBER;
 	newNode->component = NULL;
 	newNode->unit = NULL;
+	newNode->number = number;
 	return newNode;
 }
 
@@ -263,6 +264,7 @@ Variable * UnitNumberGrammarAction(int number, Unit * unit){
 	Variable * newNode = malloc(sizeof(Variable));
 	newNode->variableType = UNITNUMBER;
 	newNode->component = NULL;
+	newNode->number = number;
 	newNode->unit = unit;
 	return newNode;
 }
