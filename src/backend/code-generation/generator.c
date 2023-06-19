@@ -9,9 +9,7 @@
 void Generator(int result) {
 	//LogInfo("El resultado de la expresion computada es: '%d'.", result);
 	Program * p = state.program;
-	printf("<domain type=\"kvm\">\n");
 	generateVmUnion(p->vmUnion);
-	printf("</domain>");
 }
 
 void generateVmUnion(VmUnion * vmUnion){
@@ -31,7 +29,9 @@ void generateVmUnion(VmUnion * vmUnion){
 
 void generateVmType (VmType * vmType){
 	//printf(vmType->varName);
+	printf("<domain type=\"kvm\">\n");
 	generateResources(vmType->resources);
+	printf("</domain>\n\n");
 }
 
 void generateResources(Resources * resources){
@@ -192,10 +192,10 @@ void generateBios(BiosType * biosType){
 	switch (biosType->biosTypeType)
 	{
 	case UEFISYSTEM:
-		printf("UEFI");
+		printf("UEFI\n");
 		break;
 	case LEGACYSYSTEM:
-		printf("legacy");
+		printf("legacy\n");
 		break;
 	default:
 		break;
