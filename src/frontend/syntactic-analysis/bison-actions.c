@@ -66,7 +66,7 @@ VmType * VmTypeGrammarAction(char * varName, Resources * resources) {
 		state.succeed = false;
 		abort();
 	}
-	//insert(state.symbolTable, varName);
+	insert(state.symbolTable, varName);
 	VmType * newNode = malloc(sizeof(VmType));
 	newNode->resources=resources;
 	newNode->varName = malloc((strlen(varName)+1)*sizeof(char));
@@ -89,8 +89,6 @@ Resources * MultipleResourcesGrammarAction(Resource * resource, Resources * reso
 	newNode->resources=resources;
 	return newNode;
 }
-
-//-----
 
 Resource * ComponentConfigGrammarAction(Component * component, Expression * expression){
 	Resource * newNode = malloc(sizeof(Resource));

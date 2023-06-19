@@ -39,4 +39,6 @@ void generateRam(Expression * expression);
 
 void generateSo(SoResource * soResource);
 
+void generateDisk(Expression * expression);
+
 #endif

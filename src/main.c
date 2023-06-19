@@ -23,11 +23,13 @@ const int main(const int argumentCount, const char ** arguments) {
 	// Compilar el programa de entrada.
 	LogInfo("Compilando...\n");
 	const int result = yyparse();
+
 	switch (result) {
 		case 0:
 			// La variable "succeed" es la que setea Bison al identificar el símbolo
 			// inicial de la gramática satisfactoriamente.
 			if (state.succeed) {
+				//Funcion para resolver referencias
 				LogInfo("La compilacion fue exitosa.");
 				Generator(state.result);
 			}

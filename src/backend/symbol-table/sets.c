@@ -14,7 +14,6 @@
 
 #include "sets.h"
 
-
 // returns a pointer to a new Set allocated on the heap
 Set* init()
 {
@@ -25,7 +24,7 @@ Set* init()
   new_set->length = 0;
 
   // allocate enough space to store 1 member, we'll expand this as needed
-  new_set->vms = malloc(sizeof(struct vm));
+  new_set->members = malloc(sizeof(char*));
 
   // return the new Set (or more specifically, a pointer to it)
   return new_set;
@@ -42,48 +41,28 @@ bool is_member(Set *set, char* value)
 {
   // if we can find the value in the set's members, it is in the set
   for (int i = 0; i < set->length; i++)
-    if (strcmp(set->vms[i]->varName, value) == 0) return true;
+    if (strcmp(set->members[i], value) == 0) return true;
   
   // if after checking all the set's members we can't find the value, it is 
   // not a member of the set
   return false;
 }
 
-//  pasar un puntero con memoria ya alocada
+// pasar un puntero con memoria ya alocada
 // inserts the member value into the set (if it is not already in the set!)
-void insert(Set *set, char* varName)
+void insert(Set *set, char* member)
 {
   // check to make the member value is not in the set already
-  if (!is_member(set, varName))
+  if (!is_member(set, member))
   {
     // allocate space to store the *new* amount of members in the set 
-    set->vms = realloc(set->vms, sizeof(struct vm) * (set->length + 1));
+    set->members = realloc(set->members, sizeof(char*) * (set->length + 1));
 
-    set->vms[set->length] = malloc(set->vms[set->length]);
     // put the member into the set at the next available index
-    strcpy(set->vms[set->length]->varName, varName);
+    set->members[set->length] = member;
 
     // increment the set length to acknowledge the new length of the set
-    set->length++;
-  }
-}
-
-void insert_str_component(Set *set, char* varName, char*str)
-{
-  // check to make the member value is not in the set already
-  if (!is_member(set, varName)){
-    //loguear el error
-  }
-  {
-    // allocate space to store the *new* amount of members in the set 
-    set->vms = realloc(set->vms, sizeof(struct vm) * (set->length + 1));
-
-    set->vms[set->length] = malloc(set->vms[set->length]);
-    // put the member into the set at the next available index
-    strcpy(set->vms[set->length]->varName, varName);
-
-    // increment the set length to acknowledge the new length of the set
-    set->length++;
+    set->length = set->length + 1;
   }
 }
 
@@ -93,12 +72,12 @@ void print_set(Set *set)
   // loop through the array of set values, print each of them out separated by 
   // a comma, except the last element - instead output a newline afterwards
   for (int i = 0; i < set->length; i++)
-    printf("%s,", set->vms[i]);
+    printf("%s,", set->members[i]);
   putchar('\n');
 }
 
 void destroy_set(Set* set){
   for (int i = 0; i < set->length; i++)
-    free(set->vms[i]);
+    free(set->members[i]);
   free(set);
 }

@@ -6,29 +6,9 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define COMPONENT_QTY 4
-
-/*typedef enum{
-  CORES,
-  RAM,
-  DISK,
-  ISOSO
-} component;
-*/
-
-struct vm{
-  unsigned flags[COMPONENT_QTY];
-  unsigned cores;
-  unsigned ram;
-  unsigned disk;
-  char *isoso;
-  char *vmName;
-  char *varName;
-};
-
 // define the Set data structure
 typedef struct {
-  struct vm**vms;    // pointer to dynamically allocated array of the set members
+  char**members;    // pointer to dynamically allocated array of the set members
   int length;      // the number of members of the set
 } Set;
 
