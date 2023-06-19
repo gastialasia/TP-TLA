@@ -9,7 +9,7 @@
 void Generator(int result) {
 	//LogInfo("El resultado de la expresion computada es: '%d'.", result);
 	Program * p = state.program;
-	printf("<domain type=\"kvm\">");
+	printf("<domain type=\"kvm\">\n");
 	generateVmUnion(p->vmUnion);
 	printf("</domain>");
 }
@@ -102,6 +102,28 @@ void generateExpression(Expression * expression){
 	}
 }
 
+void generateResult(Variable* variable1, Operator* Operator, Variable* variable2){
+	int num1 = generateUnit(variable1->number, variable1->unit);
+	int num2 = generateUnit(variable2->number, variable2->unit);
+	int res;
+	switch (Operator->operatorType)
+	{
+	case ADDITION:
+		res = num1+num2;
+		break;
+	case MULTIPLICATION:
+		res = num1*num2;
+		break;
+	case SUBSTRACTION:
+		res = num1-num2;
+		res *= res<0?-1:1;
+		break;
+	default:
+		break;
+	}
+	printf("%d", res);
+}
+
 void generateVariable (Variable * variable){
 	switch (variable->variableType)
 	{
@@ -120,34 +142,50 @@ void generateVariable (Variable * variable){
 }
 
 void generateUnitNumber(int number, Unit * unit){
-	printf("%d", number);
-	generateUnit(unit);
+	printf("%d", generateUnit(number, unit));
 }
 
-void generateUnit(Unit * unit){
+int generateUnit(int number, Unit * unit){
+	int multiplicator;
 	switch (unit->unitType)
 	{
 	case TERAB:
-		printf("TB");
+		multiplicator = 1024*1024*1024;
 		break;
 	case GIGAB:
-		printf("GB");
+		multiplicator = 1024*1024;
 		break;
 	case MEGAB:
-		printf("MB");
+		multiplicator = 1024;
 		break;
 	case KILOB:
-		printf("KB");
+		multiplicator = 1;
 		break;
 	default:
 		break;
 	}
+	return number*multiplicator;
 }
 
 void generateCores(Expression * expression){
 	printf("<vcpu>");
 	generateExpression(expression);
-	printf("<vcpu/>");
+	printf("</vcpu>\n");
+}
+
+void generateRam(Expression * expression){
+	printf("<memory>");
+	generateExpression(expression);
+	printf("</memory>\n");
+	printf("<currentMemory>");
+	generateExpression(expression);
+	printf("</currentMemory>\n");
+}
+
+void generateDisk(Expression * expression){
+	printf("<disk>");
+	generateExpression(expression);
+	printf("</disk>\n");
 }
 
 void generateBios(BiosType * biosType){
@@ -172,10 +210,10 @@ void generateNetExp(NetExp * netExp){
     <model type="virtio"/>
   </interface>
 	*/
-	printf("<interface type=\"network\">");
+	printf("<interface type=\"network\">\n");
 	generateNetType(netExp->netType, netExp->macAddr);
-	printf("<model type=\"virtio\"/>");
-	printf("</interface>");
+	printf("<model type=\"virtio\"/>\n");
+	printf("</interface>\n");
 }
 
 void generateNetType(NetType * netType, char * macAddr){
@@ -183,13 +221,13 @@ void generateNetType(NetType * netType, char * macAddr){
 	switch (netType->netTypeType)
 	{
 	case NATCONFIG:
-		printf("<source network=\"default\"/>");
+		printf("<source network=\"default\"/>\n");
 		break;
 	case BRIDGECONFIG:
-		printf("<source bridge=\"default\"/>");
+		printf("<source bridge=\"default\"/>\n");
 		break;
 	case MACVTAPCONFIG:
-		printf("<source dev=\"default\"/>");
+		printf("<source dev=\"default\"/>\n");
 		break;
 	default:
 		break;
@@ -197,9 +235,14 @@ void generateNetType(NetType * netType, char * macAddr){
 }
 
 void generateName(char * vmName){
-	printf("<name>%s</name>", vmName);
+	printf("<name>%s</name>\n", vmName);
 }
 
 void generateSo(SoResource * soResource){
-
+	switch(soResource->soResourceType){
+		case SONAME:
+			printf("ACa procesamos el SONAME\n");
+		case ISOPATH:
+			printf("<disk type=\"file\" device=\"cdrom\">\n<driver name=\"qemu\" type=\"raw\"/>\n<source file=\"%s\"/>\n<target dev=\"sda\" bus=\"sata\"/>\n<readonly/>\n", soResource->isoPath);
+	}
 }

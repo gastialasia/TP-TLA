@@ -93,12 +93,12 @@ void print_set(Set *set)
   // loop through the array of set values, print each of them out separated by 
   // a comma, except the last element - instead output a newline afterwards
   for (int i = 0; i < set->length; i++)
-    printf("%s,", set->members[i]);
+    printf("%s,", set->vms[i]);
   putchar('\n');
 }
 
 void destroy_set(Set* set){
   for (int i = 0; i < set->length; i++)
-    free(set->members[i]);
+    free(set->vms[i]);
   free(set);
 }

@@ -12,6 +12,12 @@
     <source file="/var/lib/libvirt/images/fedora37-2.qcow2"/>
     <target dev="vda" bus="virtio"/>
   </disk>
+  <disk type="file" device="cdrom">
+      <driver name="qemu" type="raw"/>
+      <source file="/media/Games/Iso/Fedora-KDE-Live-x86_64-37-1.7.iso"/>
+      <target dev="sda" bus="sata"/>
+    <readonly/>
+  </disk>
   <interface type="network">
     <source network="default"/>
     <mac address="52:54:00:bb:09:42"/>

@@ -8,12 +8,13 @@
 
 #define COMPONENT_QTY 4
 
-typedef enum{
+/*typedef enum{
   CORES,
   RAM,
   DISK,
   ISOSO
 } component;
+*/
 
 struct vm{
   unsigned flags[COMPONENT_QTY];
