@@ -66,9 +66,11 @@ VmType * VmTypeGrammarAction(char * varName, Resources * resources) {
 		state.succeed = false;
 		abort();
 	}
-	insert(state.symbolTable, varName);
+	//insert(state.symbolTable, varName);
 	VmType * newNode = malloc(sizeof(VmType));
 	newNode->resources=resources;
+	newNode->varName = malloc((strlen(varName)+1)*sizeof(char));
+	strcpy(newNode->varName, varName);
 	return newNode;
 }
 
@@ -131,6 +133,8 @@ Resource * NameStringGrammarAction(char * vmName){
 	newNode->biosType = NULL;
 	newNode->netExp = NULL;
 	newNode->soResource = NULL;
+	newNode->vmName = malloc((strlen(vmName)+1)*sizeof(char));
+	strcpy(newNode->vmName, vmName);
 	return newNode;
 }
 
@@ -150,6 +154,8 @@ Resource * SoConfigGrammarAction(SoResource * soresource){
 NetExp * NetExpGrammarAction(NetType * netType, char * macAddr){
 	NetExp * newNode = malloc(sizeof(NetExp));
 	newNode->netType=netType;
+	newNode->macAddr = malloc((strlen(macAddr)+1)*sizeof(char));
+	strcpy(newNode->macAddr, macAddr);
 	return newNode;
 }
 
@@ -186,12 +192,16 @@ NetType * MacvtapConfigGrammarAction(){
 SoResource * SoNameGrammarAction(char * soName){
 	SoResource * newNode = malloc(sizeof(SoResource));
 	newNode->soResourceType = SONAME;
+	newNode->soName = malloc((strlen(soName)+1)*sizeof(char));
+	strcpy(newNode->soName, soName);
 	return newNode;
 }
 
 SoResource * IsoPathGrammarAction(char * isoPath){
 	SoResource * newNode = malloc(sizeof(SoResource));
 	newNode->soResourceType = ISOPATH;
+	newNode->isoPath = malloc((strlen(isoPath)+1)*sizeof(char));
+	strcpy(newNode->isoPath, isoPath);
 	return newNode;
 }
 
@@ -244,6 +254,8 @@ Variable * ReferenceGrammarAction(char * varName, Component * component){
 	newNode->variableType = REFERENCE;
 	newNode->component = component;
 	newNode->unit = NULL;
+	newNode->varName = malloc((strlen(varName)+1)*sizeof(char));
+	strcpy(newNode->varName, varName);
 	return newNode;
 }
 

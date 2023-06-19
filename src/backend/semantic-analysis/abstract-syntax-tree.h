@@ -44,6 +44,7 @@ struct VmType{
 	//Es el nombre de la variable de la estructura que contiene la configuracion de la VM
 	//No confundir con el nombre que se asigna a la Maquina virtual
 	Resources * resources;
+	char* varName;
 };
 
 typedef enum{
@@ -72,6 +73,7 @@ struct Resource{
 	BiosType * biosType;
 	NetExp * netExp;
 	SoResource * soResource;
+	char* vmName;
 };
 
 typedef enum{
@@ -107,6 +109,7 @@ struct BiosType{
 
 struct NetExp{
 	NetType * netType;
+	char* macAddr;
 };
 
 typedef enum{
@@ -116,6 +119,8 @@ typedef enum{
 
 struct SoResource{
 	SoResourceType soResourceType;
+	char* soName;
+	char* isoPath;
 };
 
 typedef enum{
@@ -128,6 +133,7 @@ struct Variable{
 	VariableType variableType;
 	Component * component;
 	Unit * unit;
+	char* varName;
 };
 
 typedef enum{
