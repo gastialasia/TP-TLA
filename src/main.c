@@ -1,7 +1,6 @@
 #include "backend/code-generation/generator.h"
 #include "backend/support/logger.h"
 #include "backend/support/shared.h"
-#include "backend/symbol-table/sets.h"
 #include "frontend/syntactic-analysis/bison-parser.h"
 #include <stdio.h>
 
@@ -15,6 +14,7 @@ const int main(const int argumentCount, const char ** arguments) {
 	state.result = 0;
 	state.succeed = false;
 	state.symbolTable = init();
+	state.symbols = initS();
 	// Mostrar parámetros recibidos por consola.
 	for (int i = 0; i < argumentCount; ++i) {
 		LogInfo("Argumento %d: '%s'", i, arguments[i]);

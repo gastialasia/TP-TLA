@@ -59,14 +59,13 @@ VmUnion * MultipleVmsGrammarAction(VmType * vmType, VmUnion * vmUnion) {
 }
 
 VmType * VmTypeGrammarAction(char * varName, Resources * resources) {
-	if(is_member(state.symbolTable, varName)){
+	if(pushVm(state.symbols, varName)){
 		char error[50];
 		sprintf(error, "Error: %s redeclarado\n", varName);
 		yyerror(error);
 		state.succeed = false;
 		abort();
 	}
-	insert(state.symbolTable, varName);
 	VmType * newNode = malloc(sizeof(VmType));
 	newNode->resources=resources;
 	newNode->varName = malloc((strlen(varName)+1)*sizeof(char));
@@ -91,6 +90,41 @@ Resources * MultipleResourcesGrammarAction(Resource * resource, Resources * reso
 }
 
 Resource * ComponentConfigGrammarAction(Component * component, Expression * expression){
+	//printf("Estoy en component\n");
+	//printf("%d\n", component == NULL);
+	//printf("%d\n", component->componentType);
+	switch (component->componentType)
+	{
+	case RAMNUMBER:
+		if(setRam(state.symbols, solve(expression))){
+			char error[50];
+			sprintf(error, "Error: recurso RAM redeclarado\n");
+			yyerror(error);
+			state.succeed = false;
+			abort();
+		}
+		break;
+	case DISKNUMBER:
+		if(setDisk(state.symbols, solve(expression))){
+			char error[50];
+			sprintf(error, "Error: recurso DISK redeclarado\n");
+			yyerror(error);
+			state.succeed = false;
+			abort();
+		};
+		break;
+	case CORESNUMBER:
+		if(setCores(state.symbols, solve(expression))){
+				char error[50];
+				sprintf(error, "Error: recurso CORES redeclarado\n");
+				yyerror(error);
+				state.succeed = false;
+				abort();
+		};
+		break;
+	default:
+		break;
+	}
 	Resource * newNode = malloc(sizeof(Resource));
 	newNode->resourceType = COMPONENTCONFIG;
 	newNode->component = component;
@@ -124,6 +158,13 @@ Resource * NetConfigGrammarAction(NetExp * netExp){
 }
 
 Resource * NameStringGrammarAction(char * vmName){
+	if(setVirtualName(state.symbols, vmName)){
+		char error[50];
+			sprintf(error, "Error: recurso NAME redeclarado\n");
+			yyerror(error);
+			state.succeed = false;
+			abort();
+	}
 	Resource * newNode = malloc(sizeof(Resource));
 	newNode->resourceType = NAMESTRING;
 	newNode->component = NULL;
@@ -196,6 +237,13 @@ SoResource * SoNameGrammarAction(char * soName){
 }
 
 SoResource * IsoPathGrammarAction(char * isoPath){
+	if(setIsoPath(state.symbols, isoPath)){
+		char error[50];
+		sprintf(error, "Error: recurso ISO redeclarado\n");
+		yyerror(error);
+		state.succeed = false;
+		abort();
+	}
 	SoResource * newNode = malloc(sizeof(SoResource));
 	newNode->soResourceType = ISOPATH;
 	newNode->isoPath = malloc((strlen(isoPath)+1)*sizeof(char));

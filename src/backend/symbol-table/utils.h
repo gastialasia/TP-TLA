@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include "../semantic-analysis/abstract-syntax-tree.h"
+
 typedef struct {
     char * varName;
     char * virtualName;
@@ -20,14 +22,23 @@ typedef struct symbols Symbols;
 
 Symbols * initS();
 
-int addVm(Symbols * s, char * vmName);
-
-int pushVm(Symbols * s, char * vmName);
+int pushVm(Symbols * s, char * varName);
 
 int exists(Symbols * s, char * varName);
 
 int setRam(Symbols * s, int ram);
 
+int setDisk(Symbols * s, int disk);
+
+int setCores(Symbols * s, int cores);
+
+int setVirtualName(Symbols * s, char* virtualName);
+
+int setIsoPath(Symbols * s, char* isoPath);
+
 int getRam(Symbols * s, char * varName);
+
+int solve(Expression * expression);
+
 
 #endif
