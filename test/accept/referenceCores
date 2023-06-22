@@ -1,0 +1,17 @@
+vm1 create vm {
+	name estaeslavm1
+	cores 2
+	ram 16GB
+	disk 30GB
+	iso path
+	bios legacy
+}
+
+vm2 create vm {
+        name estaeslavm1
+        cores vm1.cores
+        ram 4GB
+        disk 30GB
+        iso path
+        bios legacy
+}
