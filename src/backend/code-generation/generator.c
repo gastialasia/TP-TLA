@@ -40,7 +40,7 @@ void generateVmType (VmType * vmType){
 	
 	file = fopen(path, "w+");
 	if (file==NULL){
-		printf("Error en la creación de archivo\n");
+		printf("Error en la creación de archivo. Asegurarse tener la carpeta output en la raíz del proyecto.\n");
 		return;
 	}
 
@@ -245,7 +245,7 @@ void generateNetExp(NetExp * netExp){
 }
 
 void generateNetType(NetType * netType, char * macAddr){
-	fprintf(file, "mac address=\"%s\"/", macAddr);
+	fprintf(file, "<mac address=\"%s\"/>\n", macAddr+1);
 	switch (netType->netTypeType)
 	{
 	case NATCONFIG:
