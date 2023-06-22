@@ -3,7 +3,7 @@ vm1 create vm {
 	iso path
 	ram 8GB
 	disk 30GB
-	cores vm1.cores*2
+	cores 2
 }
 
 vm2 create vm {

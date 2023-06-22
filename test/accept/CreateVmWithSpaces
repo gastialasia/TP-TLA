@@ -3,5 +3,5 @@ varName create     vm {
 	iso path
 	ram 8GB+8GB
 	disk 30GB
-	cores vm1.cores*2
+	cores 2*2
 }
