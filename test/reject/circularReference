@@ -8,8 +8,8 @@ vm1 create vm {
 
 vm2 create vm {
         name prueba2
-        iso path/path/path/path
-        ram vm1.ram
+        iso path
+        ram vm2.ram
         disk 40KB
 }
 
