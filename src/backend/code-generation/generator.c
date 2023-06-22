@@ -163,6 +163,9 @@ void generateUnitNumber(int number, Unit * unit){
 }
 
 int generateUnit(int number, Unit * unit){
+	if (unit==NULL){
+		return number;
+	}
 	int multiplicator;
 	switch (unit->unitType)
 	{

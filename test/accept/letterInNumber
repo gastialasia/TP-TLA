@@ -1,3 +1,12 @@
+vm5 create vm {
+	name prueba
+	cores 3
+	ram 16GB
+	disk 40GB
+	iso path
+	bios legacy
+}
+
 myVM create vm {
 	name prueba
 	cores vm5.cores
