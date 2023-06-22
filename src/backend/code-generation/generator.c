@@ -149,7 +149,6 @@ void generateVariable(Variable * variable, ComponentType type){
 		default:
 			break;
 		}
-		printf("%s", variable->varName);
 		break;
 	case UNITNUMBER:
 		generateUnitNumber(variable->number, variable->unit);

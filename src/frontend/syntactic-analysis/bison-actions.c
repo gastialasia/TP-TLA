@@ -80,6 +80,7 @@ VmType * VmTypeGrammarAction(char * varName, Resources * resources) {
 	if(pushVm(state.symbols, varName)){
 		redeclarationError("VM");
 	}
+	printf("Estoy en nueva vm\n\n");
 	VmType * newNode = malloc(sizeof(VmType));
 	newNode->resources=resources;
 	newNode->varName = malloc((strlen(varName)+1)*sizeof(char));
@@ -104,23 +105,24 @@ Resources * MultipleResourcesGrammarAction(Resource * resource, Resources * reso
 }
 
 Resource * ComponentConfigGrammarAction(Component * component, Expression * expression){
-	//printf("Estoy en component\n");
-	//printf("%d\n", component == NULL);
-	//printf("%d\n", component->componentType);
+	int aux;
 	switch (component->componentType)
 	{
 	case RAMNUMBER:
-		if(setRam(state.symbols, solve(expression))){
+		aux = solve(expression);
+		if(aux != 0 && setRam(state.symbols, aux)){
 			redeclarationError("RAM");
 		}
 		break;
 	case DISKNUMBER:
-		if(setDisk(state.symbols, solve(expression))){
+		aux = solve(expression);
+		if(aux != 0 && setDisk(state.symbols, aux)){
 			redeclarationError("disk");
 		};
 		break;
 	case CORESNUMBER:
-		if(setCores(state.symbols, solve(expression))){
+		aux = solve(expression);
+		if(aux != 0 && setCores(state.symbols, aux)){
 			redeclarationError("cores");
 		};
 		break;
