@@ -1,0 +1,19 @@
+
+<domain type="kvm">
+<name>prueba</name>
+<memory>6291456</memory>
+<currentMemory>6291456</currentMemory>
+<disk>23068672</disk>
+<disk type="file" device="cdrom">
+<driver name="qemu" type="raw"/>
+<source file="path"/>
+<target dev="sda" bus="sata"/>
+<readonly/>
+<vcpu>2</vcpu>
+<interface type="network">
+<source network="default"/>
+<mac address="C4:14:CE:64:AB:93"/>
+<model type="virtio"/>
+</interface>
+</domain>
+

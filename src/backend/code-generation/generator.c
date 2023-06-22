@@ -46,10 +46,45 @@ void generateVmType (VmType * vmType){
 
 	fprintf(file, "\n<domain type=\"kvm\">\n");
 	generateResources(vmType->resources);
+	addDefaultResources(state.symbols->vms[counter-1]);
+	addExtras(state.symbols->vms[counter-1]);
 	fprintf(file, "</domain>\n\n");
 
 	fclose(file);
 	counter++;
+}
+
+static void generateRandomMACAddress(char* macAddress) {
+    srand(time(NULL)); // Seed the random number generator with the current time
+
+    // Generate six random hexadecimal numbers for the MAC address
+    for (int i = 0; i < 6; i++) {
+        int randomNum = (rand() + counter)% 256; // Generate a random number between 0 and 255
+        sprintf(macAddress + (i * 3), "%02X:", randomNum); // Format the random number as a two-digit hexadecimal and store it in the MAC address string
+    }
+
+    macAddress[17] = '\0'; // Null-terminate the MAC address string
+}
+
+void addExtras(vmInfo* vmInfo){
+	fprintf(file, EXTRAS);
+	fprintf(file, DISCO, counter, vmInfo->isoPath);
+}
+
+void addDefaultResources(vmInfo* vmInfo){
+	printf("llegue\n");
+	if(!vmInfo->cores)
+		fprintf(file, "<vcpu>2</vcpu>\n");
+	if(!vmInfo->disk)
+		vmInfo->disk = 15728640; //esta en KB
+	//	fprintf(file, "<disk>15728640</disk>\n");//default 15GB
+	if(!vmInfo->ram)
+		fprintf(file, "<memory>2097152</memory>\n<currentMemory>2097152</currentMemory>\n");//default 2GB
+	if(!vmInfo->net){
+		char macaddress[20];
+		generateRandomMACAddress(macaddress);
+		fprintf(file, "<interface type=\"network\">\n<source network=\"default\"/>\n<mac address=\"%s\"/>\n<model type=\"virtio\"/>\n</interface>\n", macaddress);//default 2GB	
+	}
 }
 
 void generateResources(Resources * resources){
@@ -100,7 +135,7 @@ void generateComponent(Component * component, Expression * expression){
 		generateRam(expression);
 		break;
 	case DISKNUMBER:
-		generateDisk(expression);
+		//generateDisk(expression);
 		break;
 	default:
 		break;
@@ -156,7 +191,7 @@ void generateVariable(Variable * variable, ComponentType type){
 			fprintf(file, "%d", getRam(state.symbols, variable->varName));
 			break;
 		case DISKNUMBER:
-			fprintf(file, "%d", getDisk(state.symbols, variable->varName));
+			//fprintf(file, "%d", getDisk(state.symbols, variable->varName));
 			break;
 		case CORESNUMBER:
 			fprintf(file, "%d", getCores(state.symbols, variable->varName));

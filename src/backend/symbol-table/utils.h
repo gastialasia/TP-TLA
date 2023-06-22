@@ -10,6 +10,7 @@ typedef struct {
     int ram;
     int disk;
     char * isoPath;
+    char net; //este no guarda el dato porque no podemos referenciar una interface de network, es un flag para saber si el usuario brindo uno o si debemos usar el default
 }vmInfo;
 
 struct symbols {
@@ -36,6 +37,8 @@ int setCores(Symbols * s, int cores);
 int setVirtualName(Symbols * s, char* virtualName);
 
 int setIsoPath(Symbols * s, char* isoPath);
+
+int setNetFlag(Symbols * s);
 
 int getRam(Symbols * s, char * varName);
 

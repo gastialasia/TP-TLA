@@ -150,6 +150,8 @@ Resource * BiosConfigGrammarAction(BiosType * biostype){
 }
 
 Resource * NetConfigGrammarAction(NetExp * netExp){
+	if(setNetFlag(state.symbols))
+		redeclarationError("network interfacate");
 	Resource * newNode = malloc(sizeof(Resource));
 	newNode->resourceType = NETCONFIG;
 	newNode->component = NULL;

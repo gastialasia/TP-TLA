@@ -67,6 +67,14 @@ int setVirtualName(Symbols * s, char* virtualName){
     return 0;
 }
 
+int setNetFlag(Symbols * s){
+    if (s->toAdd->net==1){
+        return 1; //error
+    }
+    s->toAdd->net=1;
+    return 0;
+}
+
 int setIsoPath(Symbols * s, char* isoPath){
     if (s->toAdd->isoPath!=NULL){
         return 1;
