@@ -64,6 +64,7 @@ add_executable(Compiler
 	src/backend/domain-specific/calculator.c
 	src/backend/support/logger.c
 	src/backend/symbol-table/sets.c
+	src/backend/symbol-table/utils.c
 	src/frontend/lexical-analysis/flex-actions.c
 	src/frontend/lexical-analysis/flex-scanner.c
 	src/frontend/syntactic-analysis/bison-actions.c
