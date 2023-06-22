@@ -1,12 +1,18 @@
 #include "../support/logger.h"
 #include "generator.h"
 #include "../support/shared.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 /**
  * Implementación de "generator.h".
  */
-
-char currVm[10];
+FILE * file;
+static int counter = 1;
+static char path[50];
 
 void Generator(int result) {
 	//LogInfo("El resultado de la expresion computada es: '%d'.", result);
@@ -30,11 +36,20 @@ void generateVmUnion(VmUnion * vmUnion){
 }
 
 void generateVmType (VmType * vmType){
-	//Pasé a una nueva VM
-	strcpy(currVm, vmType->varName);
-	printf("<domain type=\"kvm\">\n");
+	sprintf(path, "./output/config%d.xml", counter);
+	
+	file = fopen(path, "w+");
+	if (file==NULL){
+		printf("Error en la creación de archivo\n");
+		return;
+	}
+
+	fprintf(file, "\n<domain type=\"kvm\">\n");
 	generateResources(vmType->resources);
-	printf("</domain>\n\n");
+	fprintf(file, "</domain>\n\n");
+
+	fclose(file);
+	counter++;
 }
 
 void generateResources(Resources * resources){
@@ -124,27 +139,27 @@ void generateResult(Variable* variable1, Operator* Operator, Variable* variable2
 	default:
 		break;
 	}
-	printf("%d", res);
+	fprintf(file, "%d", res);
 }
 
 void generateVariable(Variable * variable, ComponentType type){
 	switch (variable->variableType)
 	{
 	case NUMBER:
-		printf("%d", variable->number);
+		fprintf(file, "%d", variable->number);
 		break;
 	case REFERENCE:
 		//Me traigo la referencia de la Tabla
 		switch (type)
 		{
 		case RAMNUMBER:
-			printf("%d", getRam(state.symbols, variable->varName));
+			fprintf(file, "%d", getRam(state.symbols, variable->varName));
 			break;
 		case DISKNUMBER:
-			printf("%d", getDisk(state.symbols, variable->varName));
+			fprintf(file, "%d", getDisk(state.symbols, variable->varName));
 			break;
 		case CORESNUMBER:
-			printf("%d", getCores(state.symbols, variable->varName));
+			fprintf(file, "%d", getCores(state.symbols, variable->varName));
 			break;
 		default:
 			break;
@@ -159,7 +174,7 @@ void generateVariable(Variable * variable, ComponentType type){
 }
 
 void generateUnitNumber(int number, Unit * unit){
-	printf("%d", generateUnit(number, unit));
+	fprintf(file, "%d", generateUnit(number, unit));
 }
 
 int generateUnit(int number, Unit * unit){
@@ -188,34 +203,34 @@ int generateUnit(int number, Unit * unit){
 }
 
 void generateCores(Expression * expression){
-	printf("<vcpu>");
+	fprintf(file, "<vcpu>");
 	generateExpression(expression, CORESNUMBER);
-	printf("</vcpu>\n");
+	fprintf(file, "</vcpu>\n");
 }
 
 void generateRam(Expression * expression){
-	printf("<memory>");
+	fprintf(file, "<memory>");
 	generateExpression(expression, RAMNUMBER);
-	printf("</memory>\n");
-	printf("<currentMemory>");
+	fprintf(file, "</memory>\n");
+	fprintf(file, "<currentMemory>");
 	generateExpression(expression, RAMNUMBER);
-	printf("</currentMemory>\n");
+	fprintf(file, "</currentMemory>\n");
 }
 
 void generateDisk(Expression * expression){
-	printf("<disk>");
+	fprintf(file, "<disk>");
 	generateExpression(expression, DISKNUMBER);
-	printf("</disk>\n");
+	fprintf(file, "</disk>\n");
 }
 
 void generateBios(BiosType * biosType){
 	switch (biosType->biosTypeType)
 	{
 	case UEFISYSTEM:
-		printf("UEFI\n");
+		fprintf(file, "UEFI\n");
 		break;
 	case LEGACYSYSTEM:
-		printf("legacy\n");
+		fprintf(file, "legacy\n");
 		break;
 	default:
 		break;
@@ -223,31 +238,24 @@ void generateBios(BiosType * biosType){
 }
 
 void generateNetExp(NetExp * netExp){
-	/*
-	<interface type="network">
-    <source network="default"/>
-    <mac address="52:54:00:bb:09:42"/>
-    <model type="virtio"/>
-  </interface>
-	*/
-	printf("<interface type=\"network\">\n");
+	fprintf(file, "<interface type=\"network\">\n");
 	generateNetType(netExp->netType, netExp->macAddr);
-	printf("<model type=\"virtio\"/>\n");
-	printf("</interface>\n");
+	fprintf(file, "<model type=\"virtio\"/>\n");
+	fprintf(file, "</interface>\n");
 }
 
 void generateNetType(NetType * netType, char * macAddr){
-	printf("mac address=\"%s\"/", macAddr);
+	fprintf(file, "mac address=\"%s\"/", macAddr);
 	switch (netType->netTypeType)
 	{
 	case NATCONFIG:
-		printf("<source network=\"default\"/>\n");
+		fprintf(file, "<source network=\"default\"/>\n");
 		break;
 	case BRIDGECONFIG:
-		printf("<source bridge=\"default\"/>\n");
+		fprintf(file, "<source bridge=\"default\"/>\n");
 		break;
 	case MACVTAPCONFIG:
-		printf("<source dev=\"default\"/>\n");
+		fprintf(file, "<source dev=\"default\"/>\n");
 		break;
 	default:
 		break;
@@ -255,14 +263,14 @@ void generateNetType(NetType * netType, char * macAddr){
 }
 
 void generateName(char * vmName){
-	printf("<name>%s</name>\n", vmName);
+	fprintf(file, "<name>%s</name>\n", vmName);
 }
 
 void generateSo(SoResource * soResource){
 	switch(soResource->soResourceType){
 		case SONAME:
-			printf("ACa procesamos el SONAME\n");
+			fprintf(file, "ACa procesamos el SONAME\n");
 		case ISOPATH:
-			printf("<disk type=\"file\" device=\"cdrom\">\n<driver name=\"qemu\" type=\"raw\"/>\n<source file=\"%s\"/>\n<target dev=\"sda\" bus=\"sata\"/>\n<readonly/>\n", soResource->isoPath);
+			fprintf(file, "<disk type=\"file\" device=\"cdrom\">\n<driver name=\"qemu\" type=\"raw\"/>\n<source file=\"%s\"/>\n<target dev=\"sda\" bus=\"sata\"/>\n<readonly/>\n", soResource->isoPath);
 	}
 }

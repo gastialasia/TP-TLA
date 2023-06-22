@@ -80,7 +80,6 @@ VmType * VmTypeGrammarAction(char * varName, Resources * resources) {
 	if(pushVm(state.symbols, varName)){
 		redeclarationError("VM");
 	}
-	printf("Estoy en nueva vm\n\n");
 	VmType * newNode = malloc(sizeof(VmType));
 	newNode->resources=resources;
 	newNode->varName = malloc((strlen(varName)+1)*sizeof(char));

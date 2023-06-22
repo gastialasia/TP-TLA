@@ -35,7 +35,6 @@ int exists(Symbols * s, char * varName){
 
 //devuelve 1 si ya tenia ram asignada
 int setRam(Symbols * s, int ram){
-    printf("Estoy seteando la RAM, %d\n", ram);
     if (s->toAdd->ram!=0){
         return 1;
     }
@@ -44,7 +43,6 @@ int setRam(Symbols * s, int ram){
 }
 
 int setDisk(Symbols * s, int disk){
-    printf("Estoy seteando el DISK, %d\n", disk);
     if (s->toAdd->disk!=0){
         return 1;
     }
@@ -53,7 +51,6 @@ int setDisk(Symbols * s, int disk){
 }
 
 int setCores(Symbols * s, int cores){
-    printf("Estoy seteando los CORES, %d\n", cores);
     if (s->toAdd->cores!=0){
         return 1;
     }
