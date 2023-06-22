@@ -293,37 +293,49 @@ Variable * NumberGrammarAction(int number){
 }
 
 Variable * ReferenceGrammarAction(char * varName, Component * component){
+	Variable * newNode = malloc(sizeof(Variable));
+	newNode->component = component;
+
+	Unit * unit = malloc(sizeof(Unit));
+
 	switch (component->componentType)
 	{
 	case RAMNUMBER:
 		int ram = getRam(state.symbols, varName);
-		if (ram<0){
+		if (ram==0){
 			undefinedReferenceError("ram", varName);
 		}
-		setRam(state.symbols, ram);
+		//setRam(state.symbols, ram);
+		newNode->variableType = UNITNUMBER;
+		unit->unitType = KILOB;
+		newNode->unit = unit;
+		newNode->number = ram;
 		break;
 	case DISKNUMBER:
 		int disk = getDisk(state.symbols, varName);
-		if (disk<0){
+		if (disk==0){
 			undefinedReferenceError("disk", varName);
 		}
-		setDisk(state.symbols, disk);
+		//setDisk(state.symbols, disk);
+		newNode->variableType = UNITNUMBER;
+		unit->unitType = KILOB;
+		newNode->unit = unit;
+		newNode->number = disk;
 		break;
 	case CORESNUMBER:
 		int cores = getCores(state.symbols, varName);
-		if (cores<0){
+		if (cores==0){
 			undefinedReferenceError("cores", varName);
 		}
-		setCores(state.symbols, cores);
+		//setCores(state.symbols, cores);
+		newNode->variableType = NUMBER;
+		unit->unitType = KILOB;
+		newNode->unit = unit;
+		newNode->number = cores;
 		break;
 	default:
 		break;
 	}
-
-	Variable * newNode = malloc(sizeof(Variable));
-	newNode->variableType = REFERENCE;
-	newNode->component = component;
-	newNode->unit = NULL;
 	newNode->varName = malloc((strlen(varName)+1)*sizeof(char));
 	strcpy(newNode->varName, varName);
 	return newNode;

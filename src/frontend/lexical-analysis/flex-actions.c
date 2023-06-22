@@ -64,7 +64,6 @@ token CoresPatternAction(const char * lexeme) {
 }
 
 token RamPatternAction(const char * lexeme) {
-	printf("ESTOY EN RAM PATTERN ACTION\n");
 	LogDebug("RamPatternAction: '%s' (length = %d).", lexeme);
 	yylval.token = RAM;
 	return RAM;

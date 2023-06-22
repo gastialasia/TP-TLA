@@ -16,6 +16,7 @@ struct symbols {
     vmInfo ** vms;
     int qty;
     vmInfo * toAdd;
+    int partialRes;
 };
 
 typedef struct symbols Symbols;

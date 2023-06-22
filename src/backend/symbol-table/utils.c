@@ -87,7 +87,7 @@ int getRam(Symbols * s, char * varName){
             return currVm->ram;
         }
     }
-    return -1;
+    return 0;
 }
 
 int getCores(Symbols * s, char * varName){
@@ -97,7 +97,7 @@ int getCores(Symbols * s, char * varName){
             return currVm->cores;
         }
     }
-    return -1;
+    return 0;
 }
 
 int getDisk(Symbols * s, char * varName){
@@ -107,7 +107,7 @@ int getDisk(Symbols * s, char * varName){
             return currVm->disk;
         }
     }
-    return -1;
+    return 0;
 }
 
 static int toKb(int number, Unit * unit){
