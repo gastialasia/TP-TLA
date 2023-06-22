@@ -6,6 +6,8 @@
  * Implementación de "generator.h".
  */
 
+char currVm[10];
+
 void Generator(int result) {
 	//LogInfo("El resultado de la expresion computada es: '%d'.", result);
 	Program * p = state.program;
@@ -28,7 +30,8 @@ void generateVmUnion(VmUnion * vmUnion){
 }
 
 void generateVmType (VmType * vmType){
-	//printf(vmType->varName);
+	//Pasé a una nueva VM
+	strcpy(currVm, vmType->varName);
 	printf("<domain type=\"kvm\">\n");
 	generateResources(vmType->resources);
 	printf("</domain>\n\n");
@@ -89,11 +92,11 @@ void generateComponent(Component * component, Expression * expression){
 	}
 }
 
-void generateExpression(Expression * expression){
+void generateExpression(Expression * expression, ComponentType type){
 	switch (expression->expressionType)
 	{
 	case WITHOUTOPERATOR:
-		generateVariable(expression->variable1);
+		generateVariable(expression->variable1, type);
 		break;
 	case WITHOPERATOR:
 		generateResult(expression->variable1, expression->operator, expression->variable2);
@@ -124,13 +127,28 @@ void generateResult(Variable* variable1, Operator* Operator, Variable* variable2
 	printf("%d", res);
 }
 
-void generateVariable (Variable * variable){
+void generateVariable(Variable * variable, ComponentType type){
 	switch (variable->variableType)
 	{
 	case NUMBER:
 		printf("%d", variable->number);
 		break;
 	case REFERENCE:
+		//Me traigo la referencia de la Tabla
+		switch (type)
+		{
+		case RAMNUMBER:
+			printf("%d", getRam(state.symbols, variable->varName));
+			break;
+		case DISKNUMBER:
+			printf("%d", getDisk(state.symbols, variable->varName));
+			break;
+		case CORESNUMBER:
+			printf("%d", getCores(state.symbols, variable->varName));
+			break;
+		default:
+			break;
+		}
 		printf("%s", variable->varName);
 		break;
 	case UNITNUMBER:
@@ -169,22 +187,22 @@ int generateUnit(int number, Unit * unit){
 
 void generateCores(Expression * expression){
 	printf("<vcpu>");
-	generateExpression(expression);
+	generateExpression(expression, CORESNUMBER);
 	printf("</vcpu>\n");
 }
 
 void generateRam(Expression * expression){
 	printf("<memory>");
-	generateExpression(expression);
+	generateExpression(expression, RAMNUMBER);
 	printf("</memory>\n");
 	printf("<currentMemory>");
-	generateExpression(expression);
+	generateExpression(expression, RAMNUMBER);
 	printf("</currentMemory>\n");
 }
 
 void generateDisk(Expression * expression){
 	printf("<disk>");
-	generateExpression(expression);
+	generateExpression(expression, DISKNUMBER);
 	printf("</disk>\n");
 }
 

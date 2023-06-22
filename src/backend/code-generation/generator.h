@@ -15,9 +15,9 @@ void generateResource(Resource * resource);
 
 void generateComponent(Component * component, Expression * expression);
 
-void generateExpression(Expression * expression);
+void generateExpression(Expression * expression, ComponentType type);
 
-void generateVariable (Variable * variable);
+void generateVariable(Variable * variable, ComponentType type);
 
 void generateUnitNumber(int number, Unit * unit);
 

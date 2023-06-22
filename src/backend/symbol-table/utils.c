@@ -71,7 +71,7 @@ int setVirtualName(Symbols * s, char* virtualName){
 }
 
 int setIsoPath(Symbols * s, char* isoPath){
-    if (s->toAdd->virtualName!=NULL){
+    if (s->toAdd->isoPath!=NULL){
         return 1;
     }
     s->toAdd->isoPath = malloc((strlen(isoPath)+1)*sizeof(char));
@@ -87,6 +87,27 @@ int getRam(Symbols * s, char * varName){
             return currVm->ram;
         }
     }
+    return -1;
+}
+
+int getCores(Symbols * s, char * varName){
+    for (int i=0; i<s->qty; i++){
+        vmInfo * currVm = s->vms[i];
+        if (!strcmp(currVm->varName, varName) && currVm->cores!=0){
+            return currVm->cores;
+        }
+    }
+    return -1;
+}
+
+int getDisk(Symbols * s, char * varName){
+    for (int i=0; i<s->qty; i++){
+        vmInfo * currVm = s->vms[i];
+        if (!strcmp(currVm->varName, varName) && currVm->disk!=0){
+            return currVm->disk;
+        }
+    }
+    return -1;
 }
 
 static int toKb(int number, Unit * unit){

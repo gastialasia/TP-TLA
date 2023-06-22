@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define ERROR_MSG(text) 
+
 /**
  * Implementación de "bison-grammar.h".
  */
@@ -22,6 +24,22 @@ void yyerror(const char * string) {
 		LogErrorRaw("[%d]", yytext[i]);
 	}
 	LogErrorRaw("\n\n");
+}
+
+void redeclarationError(char * res){
+	char error[50];
+	sprintf(error, "Error: %s redeclarado.\n", res);
+	yyerror(error);
+	state.succeed = false;
+	abort();
+}
+
+void undefinedReferenceError(char * var, char * res){
+	char error[50];
+	sprintf(error, "Error: referencia indefinida para %s en %s.\n", res, var);
+	yyerror(error);
+	state.succeed = false;
+	abort();
 }
 
 /**
@@ -60,11 +78,7 @@ VmUnion * MultipleVmsGrammarAction(VmType * vmType, VmUnion * vmUnion) {
 
 VmType * VmTypeGrammarAction(char * varName, Resources * resources) {
 	if(pushVm(state.symbols, varName)){
-		char error[50];
-		sprintf(error, "Error: %s redeclarado\n", varName);
-		yyerror(error);
-		state.succeed = false;
-		abort();
+		redeclarationError("VM");
 	}
 	VmType * newNode = malloc(sizeof(VmType));
 	newNode->resources=resources;
@@ -97,29 +111,17 @@ Resource * ComponentConfigGrammarAction(Component * component, Expression * expr
 	{
 	case RAMNUMBER:
 		if(setRam(state.symbols, solve(expression))){
-			char error[50];
-			sprintf(error, "Error: recurso RAM redeclarado\n");
-			yyerror(error);
-			state.succeed = false;
-			abort();
+			redeclarationError("RAM");
 		}
 		break;
 	case DISKNUMBER:
 		if(setDisk(state.symbols, solve(expression))){
-			char error[50];
-			sprintf(error, "Error: recurso DISK redeclarado\n");
-			yyerror(error);
-			state.succeed = false;
-			abort();
+			redeclarationError("disk");
 		};
 		break;
 	case CORESNUMBER:
 		if(setCores(state.symbols, solve(expression))){
-				char error[50];
-				sprintf(error, "Error: recurso CORES redeclarado\n");
-				yyerror(error);
-				state.succeed = false;
-				abort();
+			redeclarationError("cores");
 		};
 		break;
 	default:
@@ -159,11 +161,7 @@ Resource * NetConfigGrammarAction(NetExp * netExp){
 
 Resource * NameStringGrammarAction(char * vmName){
 	if(setVirtualName(state.symbols, vmName)){
-		char error[50];
-			sprintf(error, "Error: recurso NAME redeclarado\n");
-			yyerror(error);
-			state.succeed = false;
-			abort();
+		redeclarationError("name");
 	}
 	Resource * newNode = malloc(sizeof(Resource));
 	newNode->resourceType = NAMESTRING;
@@ -238,11 +236,7 @@ SoResource * SoNameGrammarAction(char * soName){
 
 SoResource * IsoPathGrammarAction(char * isoPath){
 	if(setIsoPath(state.symbols, isoPath)){
-		char error[50];
-		sprintf(error, "Error: recurso ISO redeclarado\n");
-		yyerror(error);
-		state.succeed = false;
-		abort();
+		redeclarationError("iso");
 	}
 	SoResource * newNode = malloc(sizeof(SoResource));
 	newNode->soResourceType = ISOPATH;
@@ -297,6 +291,33 @@ Variable * NumberGrammarAction(int number){
 }
 
 Variable * ReferenceGrammarAction(char * varName, Component * component){
+	switch (component->componentType)
+	{
+	case RAMNUMBER:
+		int ram = getRam(state.symbols, varName);
+		if (ram<0){
+			undefinedReferenceError("ram", varName);
+		}
+		setRam(state.symbols, ram);
+		break;
+	case DISKNUMBER:
+		int disk = getDisk(state.symbols, varName);
+		if (disk<0){
+			undefinedReferenceError("disk", varName);
+		}
+		setDisk(state.symbols, disk);
+		break;
+	case CORESNUMBER:
+		int cores = getCores(state.symbols, varName);
+		if (cores<0){
+			undefinedReferenceError("cores", varName);
+		}
+		setCores(state.symbols, cores);
+		break;
+	default:
+		break;
+	}
+
 	Variable * newNode = malloc(sizeof(Variable));
 	newNode->variableType = REFERENCE;
 	newNode->component = component;
@@ -356,7 +377,6 @@ Component * DiskNumberGrammarAction(){
 	newNode->componentType = DISKNUMBER;
 	return newNode;
 }
-
 
 
 

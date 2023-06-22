@@ -38,6 +38,10 @@ int setIsoPath(Symbols * s, char* isoPath);
 
 int getRam(Symbols * s, char * varName);
 
+int getDisk(Symbols * s, char * varName);
+
+int getCores(Symbols * s, char * varName);
+
 int solve(Expression * expression);
 
 
