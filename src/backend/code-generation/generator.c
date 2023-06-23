@@ -67,12 +67,13 @@ static void generateRandomMACAddress(char* macAddress) {
 }
 
 void addExtras(vmInfo* vmInfo){
+	char mac[30];
+	generateRandomMACAddress(mac);
 	fprintf(file, EXTRAS);
-	fprintf(file, DISCO, counter, vmInfo->isoPath);
+	fprintf(file, DISCO, getenv("PWD"), counter, mac,vmInfo->isoPath);
 }
 
 void addDefaultResources(vmInfo* vmInfo){
-	printf("llegue\n");
 	if(!vmInfo->cores)
 		fprintf(file, "<vcpu>2</vcpu>\n");
 	if(!vmInfo->disk)
@@ -118,7 +119,7 @@ void generateResource(Resource * resource){
 		generateName(resource->vmName);
 		break;
 	case SOCONFIG:
-		generateSo(resource->soResource);
+		//generateSo(resource->soResource);
 		break;
 	default:
 		break;
