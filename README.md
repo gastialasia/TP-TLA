@@ -14,6 +14,7 @@ Para construir el compilador, se requieren las siguientes dependencias:
 * [GCC v11.1.0](https://gcc.gnu.org/)
 * [Make v4.3](https://www.gnu.org/software/make/)
 * [Libvirt 8.0.0](https://libvirt.org/)
+* [Qemo 7.2.3](https://www.qemu.org/)
 
 Aclaración: este compilador funciona solamente para Linux, pensado para usarse con libvirt y el Virtual Machine Manager.
 
@@ -26,7 +27,7 @@ user@machine:path/ $ chmod u+x --recursive script
 user@machine:path/ $ script/build.sh
 ```
 
-## Ejecución
+## Compilación
 
 Para compilar un programa, primero cree un archivo denominado `program.ysy` (o el nombre que desee), con la sintaxis apropiada del lenguaje ysy (ver informe y casos de testeo para más información).
 
@@ -38,7 +39,16 @@ user@machine:path/ $ script/start.sh program.ysy
 
 Debería obtener los archivos de configuración XML de las VMs en la carpeta `output` dentro de la raíz del proyecto.
 
-## Testing
+## Ejecución
+
+Para levantar una VM en base a su configuración, ejecute los siguientes comandos:
+
+```bash
+user@machine:path/ $ sudo virsh create config1.xml
+user@machine:path/ $ qemu-img create -f qcow2 Win1k.qcow2 10G
+```
+
+## Testing de compilación
 
 ```bash
 user@machine:path/ $ script/test.sh
