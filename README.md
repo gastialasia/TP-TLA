@@ -1,8 +1,11 @@
 
 # Compilador para configuración de VMs
 
+Este proyecto consiste en la implementación de un compilador que permite, a través de un determinado lenguaje, generar un archivo de configuración para levantar una máquina virtual (VM). Es decir, se busca resolver el problema de lidiar con complejos archivos de configuración de máquinas virtuales en XML. Esto es, a través de un lenguaje sencillo, amigable y natural al lenguaje humano.
 
-Un compilador para crear archivos de configuración de máquinas virtuales a partir de un lenguaje amigable para el usuario. Construido con Flex y Bison.
+## Tecnologías utilizadas
+
+Construido con Flex y Bison.
 
 ## Requerimientos
 
