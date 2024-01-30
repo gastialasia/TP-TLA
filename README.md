@@ -7,6 +7,35 @@ Este proyecto consiste en la implementación de un compilador que permite, a tra
 
 Construido con Flex y Bison.
 
+## Lenguaje YSY
+
+Las siguiente es la sintaxis del lenguaje: 
+
+```
+vm1 = create vm “[nombre de la maquina virtual]” {
+    cores [cantidad de cores]
+    ram [cant de RAM][G/M] (gigabytes o megabytes)
+    disk [tamaño del disco][G/M] (gigabytes o megabytes)
+    iso [path al archivo] 
+    so [windows10/ubuntu2204/otros]
+    bios [legacy/UEFI]
+    net-controller {
+      type [nat, bridge, macvtop]
+      ip “[X.X.X.X]”
+      mac “[MAC address]”
+}
+```
+
+Aclaraciones: 
+
+* Parámetros obligatorios: nombre, iso/so.
+* Luego de create vm, las líneas de código sucesivas pueden estar en cualquier orden.
+* Solo uno de las siguiente palabras pueden estar simultáneamente: iso o so.
+* Al escribir la opción se tomará el link de descarga guardado para cada palabra clave y con el script de Bash bajará el archivo .iso con wget para configurar la máquina virtual.
+* La extensión de los archivos del lenguaje, por convención, será .ysy
+
+
+
 ## Requerimientos
 
 Para construir el compilador, se requieren las siguientes dependencias:
